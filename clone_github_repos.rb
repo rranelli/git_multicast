@@ -44,6 +44,7 @@ def format_output(urls, statuses, start_time = nil)
   success_pairs.each { |ssh_url, _| puts "#{ssh_url} cloned successfully." }
   failure_pairs.each { |ssh_url, _|  puts "failure to clone #{ssh_url}." }
 
+  puts '=========================================='
   puts "Finished in #{Time.now - start_time} seconds." if start_time
 end
 
