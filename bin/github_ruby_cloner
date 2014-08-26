@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-
 require_relative '../lib/github_ruby_cloner/cli'
 
-GithubRubyCloner::CLI.start
+GithubRubyCloner::Cli.start
