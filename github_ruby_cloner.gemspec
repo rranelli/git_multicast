@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name = 'github-ruby-cloner'
+  s.name = 'github_ruby_cloner'
   s.version = '0.0.0'
   s.required_ruby_version = '~>2.0'
 
