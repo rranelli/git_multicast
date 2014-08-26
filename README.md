@@ -1,4 +1,5 @@
-github-ruby-cloner
-==================
+# Execute mass actions on your github repositories.
 
-Simple script for cloning github repositories concurrently
+actions currently supported:
+    * Git clone all your repositories (and add upstream remote if it is a fork)
+    * Git pull all repositories in directory
