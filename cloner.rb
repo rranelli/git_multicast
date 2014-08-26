@@ -7,19 +7,25 @@ require 'json'
 
 include Process
 
-def clone_em_all!(urls)
-  urls.map do |ssh_url|
-    spawn("git clone #{ssh_url}")
-  end
+def clone_em_all!(repos)
+  repos.map do |repo|
+    if repo.fork
+      parent_repo = RepositoryFetcher.get_repo(repo.url).parent
+      command = "git clone #{repo.ssh_url} && cd #{repo.name} && git remote add upstream #{parent_repo.ssh_url}"
+    else
+      command = "git clone #{repo.ssh_url}"
+    end
 
+    spawn(command)
+    command
+  end
   waitall.map { |_, status| status }
 end
 
 # main logic
 start_time = Time.now
+repos = RepositoryFetcher.get_all_repos_from_user('rranelli')
+statuses = clone_em_all!(repos)
 
-urls = RepositoryFetcher.get_all_repos_from_user('rranelli', 'ssh')
-
-statuses = clone_em_all!(urls)
-
+urls = repos.map(&:url)
 OutputFormatter.format(urls, statuses, start_time)

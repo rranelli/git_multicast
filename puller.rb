@@ -3,7 +3,9 @@
 include Process
 
 class Array
-  def second; self[2]; end
+  def second
+    self[1]
+  end
 end
 
 def format_result(repositories, statuses)
