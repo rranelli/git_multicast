@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'recursive-open-struct', '~> 0.5.0'
   s.add_dependency 'thor', '~> 0.19'
 
-  spec.add_development_dependency 'bundler', '~> 1.7'
-  spec.add_development_dependency 'rspec', '~> 3.0'
-  spec.add_development_dependency 'pry'
+  s.add_development_dependency 'bundler', '~> 1.7'
+  s.add_development_dependency 'rspec', '~> 3.0'
+  s.add_development_dependency 'pry'
 end

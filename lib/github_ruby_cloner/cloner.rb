@@ -1,11 +1,19 @@
-#!/usr/bin/env ruby
 require 'net/http'
 require 'json'
 
 class Cloner
   include Process
 
-  def clone_em_all!(repos)
+  def self.clone(username)
+    start_time = Time.now
+    repos = RepositoryFetcher.get_all_repos_from_user(username)
+    statuses = clone_em_all!(repos)
+
+    urls = repos.map(&:url)
+    OutputFormatter.format(urls, statuses, start_time)
+  end
+
+  def self.clone_em_all!(repos)
     repos.map do |repo|
       spawn(make_command(repo))
       command
@@ -13,7 +21,7 @@ class Cloner
     waitall.map { |_, status| status }
   end
 
-  def make_command(repo)
+  def self.make_command(repo)
     if repo.fork
       parent_repo = RepositoryFetcher.get_repo(repo.url).parent
       "git clone #{repo.ssh_url} &&
@@ -24,11 +32,3 @@ class Cloner
     end
   end
 end
-
-# main logic
-start_time = Time.now
-repos = RepositoryFetcher.get_all_repos_from_user('rranelli')
-statuses = clone_em_all!(repos)
-
-urls = repos.map(&:url)
-OutputFormatter.format(urls, statuses, start_time)
