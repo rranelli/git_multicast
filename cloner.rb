@@ -11,7 +11,9 @@ def clone_em_all!(repos)
   repos.map do |repo|
     if repo.fork
       parent_repo = RepositoryFetcher.get_repo(repo.url).parent
-      command = "git clone #{repo.ssh_url} && cd #{repo.name} && git remote add upstream #{parent_repo.ssh_url}"
+      command = "git clone #{repo.ssh_url} &&
+                 cd #{repo.name} &&
+                 git remote add upstream #{parent_repo.ssh_url} --fetch"
     else
       command = "git clone #{repo.ssh_url}"
     end

@@ -2,12 +2,6 @@
 
 include Process
 
-class Array
-  def second
-    self[1]
-  end
-end
-
 def format_result(repositories, statuses)
   repositories.zip(statuses).each do |repo, status|
     puts "Pulled #{repo} successfully" if status && status.success?
