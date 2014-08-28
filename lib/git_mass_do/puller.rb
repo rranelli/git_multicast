@@ -1,26 +1,31 @@
-class Puller
-  include Process
+module GitMassDo
+  class Puller
+    include Process
 
-  def self.pull
-    dirs = Dir.entries(Dir.pwd)
-      .select { |f| File.directory? f }
-      .reject { |f| f =~ /^\./  } # ., .. and .git and the like
+    attr_reader :dir
 
-    dirs.each do |dir|
-      spawn "git -C #{dir} pull origin"
+    def initialize(dir)
+      @dir = dir
     end
 
-    result = waitall
+    def pull
+      dirs = Dir.entries(dir)
+        .select { |f| File.directory? f }
+        .reject { |f| f =~ /^\./  } # ., .. and .git and the like
 
-    statuses = result.map(&:second)
+      dirs.each do |dir|
+        spawn "git -C #{dir} pull -r origin"
+      end
 
-    format_result(dirs, statuses)
-  end
+      _, statuses = waitall.transpose
+      format_result(dirs, statuses)
+    end
 
-  def self.format_result(repositories, statuses)
-    repositories.zip(statuses).each do |repo, status|
-      puts "Pulled #{repo} successfully" if status && status.success?
-      puts "Failed to pull #{repo}" unless status && status.success?
+    def format_result(repositories, statuses)
+      repositories.zip(statuses).each do |repo, status|
+        puts "Pulled #{repo} successfully" if status && status.success?
+        puts "Failed to pull #{repo}" unless status && status.success?
+      end
     end
   end
 end

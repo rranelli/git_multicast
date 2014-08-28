@@ -4,4 +4,5 @@ require_relative 'git_mass_do/puller'
 require_relative 'git_mass_do/output_formatter'
 require_relative 'git_mass_do/repository_fetcher'
 
-module GitMassDo; end
+module GitMassDo
+end

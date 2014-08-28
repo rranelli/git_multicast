@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require_relative '../lib/git_mass_do/cli'
 
-GithubRubyCloner::Cli.start
+GitMassDo::Cli.start
