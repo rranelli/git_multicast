@@ -3,6 +3,5 @@ require_relative 'git_mass_do/cloner'
 require_relative 'git_mass_do/puller'
 require_relative 'git_mass_do/output_formatter'
 require_relative 'git_mass_do/repository_fetcher'
-require_relative 'git_mass_do/cli'
 
 module GitMassDo; end
