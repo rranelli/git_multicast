@@ -21,7 +21,7 @@ describe GitMassDo::Puller do
 
     it 'issues a git pull command for each entry in dir' do
       entries.each do |entry|
-        expect(puller).to receive(:spawn).with("git -C #{entry} pull origin")
+        expect(puller).to receive(:spawn).with("git -C #{entry} pull -r origin")
       end
 
       pull

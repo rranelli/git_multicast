@@ -5,20 +5,10 @@ module GitMassDo
   class Cloner
     include Process
 
-    def initialize(username)
+    def initialize(username, dir = Dir.pwd)
       @username = username
+      @dir = dir
     end
-
-    def clone_em_all!(repos)
-      repos.map do |repo|
-        spawn(make_command(repo))
-      end
-      waitall.map { |_, status| status }
-    end
-
-    private
-
-    attr_reader :username
 
     def clone!
       start_time = Time.now
@@ -28,13 +18,25 @@ module GitMassDo
       OutputFormatter.format(repos, statuses, start_time)
     end
 
+    private
+
+    attr_reader :username, :dir
+
+    def clone_em_all!(repos)
+      repos.map do |repo|
+        spawn(make_command(repo))
+      end
+      waitall.map { |_, status| status }
+    end
+
     def make_command(repo)
       if repo.fork
         parent_repo = RepositoryFetcher.get_repo(repo.url).parent
-        "git clone #{repo.ssh_url} && \
-git -C #{repo.name} remote add upstream #{parent_repo.ssh_url} --fetch"
+        "git clone #{repo.ssh_url} #{ File.join(dir, repo.name) } && \
+git -C \"#{ File.join(dir, repo.name) }\" remote add upstream \
+#{parent_repo.ssh_url} --fetch"
       else
-        "git clone #{repo.ssh_url}"
+        "git clone #{repo.ssh_url} #{ File.join(dir, repo.name) }"
       end
     end
   end

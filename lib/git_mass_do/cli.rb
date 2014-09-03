@@ -10,8 +10,8 @@ module GitMassDo
     end
 
     desc 'git_mass_do clone :username', 'Git pulls all repositories contained in current directory.'
-    def clone(username)
-      Cloner.new(username).clone!
+    def clone(username, dir = Dir.pwd)
+      Cloner.new(username, dir).clone!
     end
   end
 end
