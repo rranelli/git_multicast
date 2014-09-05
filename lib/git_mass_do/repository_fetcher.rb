@@ -1,27 +1,18 @@
-require 'recursive-open-struct'
-require 'json'
-
 module GitMassDo
   class RepositoryFetcher
-    REPOS_URI = 'https://api.github.com/users/%{username}/repos'
+    FETCHERS = [
+      GitMassDo::GithubFetcher,
+      GitMassDo::BitbucketFetcher
+    ]
 
     def self.get_all_repos_from_user(username)
-      uri_str = REPOS_URI % { username: username }
-      uri = URI(uri_str)
-
-      response = Net::HTTP.get_response(uri)
-      repos = JSON.parse(response.body)
-
-      repos.map { |hash| make_struct(hash) }
+      multicast(FETCHERS, :get_all_repos_from_user, username).flatten
     end
 
-    def self.get_repo(url)
-      response = Net::HTTP.get_response(URI(url))
-      make_struct(JSON.parse(response.body))
-    end
-
-    def self.make_struct(hash)
-      RecursiveOpenStruct.new(hash, recurse_over_arrays: true)
+    def self.multicast(list, method, *args)
+      list.map do |e|
+        e.send(method, *args)
+      end
     end
   end
 end

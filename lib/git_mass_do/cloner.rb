@@ -5,7 +5,7 @@ module GitMassDo
   class Cloner
     include Process
 
-    def initialize(username, dir = Dir.pwd)
+    def initialize(username, dir)
       @username = username
       @dir = dir
     end
@@ -31,7 +31,7 @@ module GitMassDo
 
     def make_command(repo)
       if repo.fork
-        parent_repo = RepositoryFetcher.get_repo(repo.url).parent
+        parent_repo = RepositoryFetcher.get_repo_parent(repo.url)
         "git clone #{repo.ssh_url} #{ File.join(dir, repo.name) } && \
 git -C \"#{ File.join(dir, repo.name) }\" remote add upstream \
 #{parent_repo.ssh_url} --fetch"

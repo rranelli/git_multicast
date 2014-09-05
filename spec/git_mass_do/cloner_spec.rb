@@ -40,15 +40,15 @@ module GitMassDo
         end
 
         before do
-          allow(RepositoryFetcher).to receive_message_chain(
-            :get_repo, :parent
+          allow(RepositoryFetcher).to receive(
+            :get_repo_parent
           ).and_return(parent_repo)
 
           allow(repo).to receive(:fork).and_return(true)
         end
 
         it 'gets parent repository by url' do
-          expect(RepositoryFetcher).to receive(:get_repo)
+          expect(RepositoryFetcher).to receive(:get_repo_parent)
             .with(repo.url)
 
           clone!
