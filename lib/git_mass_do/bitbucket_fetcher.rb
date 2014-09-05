@@ -9,6 +9,11 @@ module GitMassDo
       response = Net::HTTP.get_response(uri)
       response_json = JSON.parse(response.body)
 
+      # Damn...
+      response_json['values'].each do |node|
+        node['links']['_clone'] = node['links']['clone']
+      end
+
       bb_repos = response_json['values'].map { |hash| make_struct(hash) }
       bb_repos.map { |bb_repo| BitbucketAdapter.new(bb_repo).adapt }
     end

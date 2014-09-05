@@ -4,9 +4,9 @@ describe GitMassDo::BitbucketAdapter do
   let(:repo) { double(:repo) }
 
   before do
-    allow(repo).to receive_message_chain(:links, :clone, :last, :href)
+    allow(repo).to receive_message_chain(:links, :_clone, :last, :href)
       .and_return('git@bucketbit.org:foo/bar.git')
-    allow(repo).to receive_message_chain(:links, :self)
+    allow(repo).to receive_message_chain(:links, :self, :href)
       .and_return('http://bucketbit.org/test-repo')
 
     allow(repo).to receive(:name).and_return('test-repo')

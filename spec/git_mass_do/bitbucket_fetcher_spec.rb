@@ -3,9 +3,21 @@ describe GitMassDo::BitbucketFetcher do
 
   let(:uri) { URI(url) }
   let(:response) { instance_double(Net::HTTPResponse) }
-  let(:body) { '{ "values": {"value": "I be a body", "b": "c"} }' }
+  let(:body) do
+    '{ "values": [\
+{ "links": { "clone": "I be a body" } },\
+{ "links": { "clone": "I be other body" } }\
+]}'
+  end
 
-  let(:json) { { 'values' => { 'value' => 'I be a body', 'b' => 'c' } } }
+  let(:json) do
+    { 'values' =>
+      [
+        { 'links' => { 'clone' => 'I be a body' } },
+        { 'links' => { 'clone' => 'I be other body' } }
+      ]
+    }
+  end
 
   let(:adapter) do
     instance_double(GitMassDo::BitbucketAdapter, adapt: adapted_repo)
@@ -58,15 +70,6 @@ describe GitMassDo::BitbucketFetcher do
     let(:user) { 'mrwhite' }
     let(:url) { 'https://bitbucket.org/api/2.0/repositories/mrwhite' }
 
-    let(:json) do
-      { 'values' =>
-        [
-          { 'value' => 'I be a body' },
-          { 'b' => 'c' }
-        ]
-      }
-    end
-
     it 'calls http get' do
       expect(Net::HTTP).to receive(:get_response).with(uri)
 
@@ -79,8 +82,14 @@ describe GitMassDo::BitbucketFetcher do
       get_all_repos_from_user
     end
 
-    it 'builds each repository as an OpenStruct' do
+    it 'builds each repository as a RecursiveOpenStruct' do
       expect(RecursiveOpenStruct).to receive(:new).twice
+
+      get_all_repos_from_user
+    end
+
+    it 'adapts each struct' do
+      expect(adapter).to receive(:adapt).twice
 
       get_all_repos_from_user
     end

@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'git_mass_do'
-  s.version = '0.0.3'
+  s.version = '0.0.4.pre'
   s.required_ruby_version = '~>2.0'
 
   s.summary  = 'Execute mass actions on git repositories concurrently'

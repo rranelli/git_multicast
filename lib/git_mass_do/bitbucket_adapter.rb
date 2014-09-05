@@ -19,8 +19,8 @@ module GitMassDo
     def make_repo_hash
       {
         fork: !repo.parent.nil?,
-        ssh_url: repo.links.clone.last.href,
-        url: repo.links.self,
+        ssh_url: repo.links._clone.last.href,
+        url: repo.links.self.href,
         parent: nil,
         name: repo.name
       }

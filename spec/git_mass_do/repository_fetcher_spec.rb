@@ -18,4 +18,16 @@ describe GitMassDo::RepositoryFetcher do
       get_all_repos_from_user
     end
   end
+
+  describe 'self.get_parent_repo' do
+    subject(:get_parent_repo) { fetcher.get_parent_repo(url) }
+
+    let(:url) { 'http://bitbucket.im.wrong.as.hell' }
+
+    it 'delegates to the right fetcher' do
+      expect(GitMassDo::BitbucketFetcher).to receive(:get_parent_repo).with(url)
+
+      get_parent_repo
+    end
+  end
 end
