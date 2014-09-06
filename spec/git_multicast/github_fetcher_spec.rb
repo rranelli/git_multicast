@@ -1,4 +1,4 @@
-describe GitMassDo::GithubFetcher do
+describe GitMulticast::GithubFetcher do
   subject(:fetcher) { described_class }
 
   let(:uri) { URI(url) }

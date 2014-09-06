@@ -1,4 +1,4 @@
-module GitMassDo
+module GitMulticast
   class BitbucketFetcher
     REPOS_URI = 'https://bitbucket.org/api/2.0/repositories/%{username}'
 

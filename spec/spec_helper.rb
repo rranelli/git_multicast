@@ -1,4 +1,4 @@
-require_relative '../lib/git_mass_do'
+require_relative '../lib/git_multicast'
 
 def fixture_path(filename)
   return '' if filename == ''

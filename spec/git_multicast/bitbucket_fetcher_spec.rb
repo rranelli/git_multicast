@@ -1,4 +1,4 @@
-describe GitMassDo::BitbucketFetcher do
+describe GitMulticast::BitbucketFetcher do
   subject(:fetcher) { described_class }
 
   let(:uri) { URI(url) }
@@ -20,7 +20,7 @@ describe GitMassDo::BitbucketFetcher do
   end
 
   let(:adapter) do
-    instance_double(GitMassDo::BitbucketAdapter, adapt: adapted_repo)
+    instance_double(GitMulticast::BitbucketAdapter, adapt: adapted_repo)
   end
   let(:adapted_repo) { double(:adapted_repo) }
 
@@ -30,7 +30,7 @@ describe GitMassDo::BitbucketFetcher do
     allow(Net::HTTP).to receive(:get_response).and_return(response)
     allow(response).to receive(:body).and_return(body)
 
-    allow(GitMassDo::BitbucketAdapter).to receive(:new).and_return(adapter)
+    allow(GitMulticast::BitbucketAdapter).to receive(:new).and_return(adapter)
   end
 
   describe '.get_repo' do

@@ -1,4 +1,4 @@
-describe GitMassDo::RepositoryFetcher do
+describe GitMulticast::RepositoryFetcher do
   subject(:fetcher) { described_class }
 
   let(:fetchers) { described_class::FETCHERS }
@@ -25,7 +25,7 @@ describe GitMassDo::RepositoryFetcher do
     let(:url) { 'http://bitbucket.im.wrong.as.hell' }
 
     it 'delegates to the right fetcher' do
-      expect(GitMassDo::BitbucketFetcher).to receive(:get_parent_repo).with(url)
+      expect(GitMulticast::BitbucketFetcher).to receive(:get_parent_repo).with(url)
 
       get_parent_repo
     end

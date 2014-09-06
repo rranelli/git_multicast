@@ -1,4 +1,4 @@
-describe GitMassDo::Puller do
+describe GitMulticast::Puller do
   subject(:puller) { described_class.new(dir) }
 
   let(:dir) { '/home/' }

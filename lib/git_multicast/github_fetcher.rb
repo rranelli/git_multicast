@@ -1,7 +1,7 @@
 require 'recursive-open-struct'
 require 'json'
 
-module GitMassDo
+module GitMulticast
   class GithubFetcher
     REPOS_URI = 'https://api.github.com/users/%{username}/repos'
 

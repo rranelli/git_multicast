@@ -1,4 +1,4 @@
-module GitMassDo
+module GitMulticast
   describe Cloner do
     subject(:cloner) { described_class.new(username, dir) }
 

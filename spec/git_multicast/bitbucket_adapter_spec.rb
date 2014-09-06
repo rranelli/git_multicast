@@ -1,4 +1,4 @@
-describe GitMassDo::BitbucketAdapter do
+describe GitMulticast::BitbucketAdapter do
   subject(:adapter) { described_class.new(repo) }
 
   let(:repo) { double(:repo) }

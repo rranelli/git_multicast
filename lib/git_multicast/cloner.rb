@@ -1,7 +1,7 @@
 require 'net/http'
 require 'json'
 
-module GitMassDo
+module GitMulticast
   class Cloner
     include Process
 
@@ -18,7 +18,7 @@ module GitMassDo
       OutputFormatter.format(repos, statuses, start_time)
     end
 
-    private
+    protected
 
     attr_reader :username, :dir
 

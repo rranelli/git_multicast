@@ -1,4 +1,4 @@
-module GitMassDo
+module GitMulticast
   class Puller
     include Process
 

@@ -1,4 +1,4 @@
-module GitMassDo
+module GitMulticast
   class BitbucketAdapter
     def initialize(repo)
       @repo = repo
@@ -8,7 +8,7 @@ module GitMassDo
       make_struct(repo_hash)
     end
 
-    private
+    protected
 
     attr_reader :repo
 

@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
-  s.name = 'git_mass_do'
+  s.name = 'git_multicast'
   s.version = '0.0.4.pre'
   s.required_ruby_version = '~>2.0'
 
   s.summary  = 'Execute mass actions on git repositories concurrently'
   s.authors  = ['Renan Ranelli']
   s.email    = ['renanranelli@gmail.com']
-  s.homepage = 'http://github.com/rranelli/github-ruby-cloner'
+  s.homepage = 'http://github.com/rranelli/git_multicast'
   s.license  = 'MIT'
 
   s.files       = `git ls-files -z`.split("\x0")
