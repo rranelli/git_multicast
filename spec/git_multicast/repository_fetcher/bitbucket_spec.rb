@@ -20,18 +20,11 @@ module GitMulticast
       }
     end
 
-    let(:adapter) do
-      instance_double(Adapters::Bitbucket, adapt: adapted_repo)
-    end
-    let(:adapted_repo) { double(:adapted_repo) }
-
     before do
       allow(JSON).to receive(:parse).and_return(json)
 
       allow(Net::HTTP).to receive(:get_response).and_return(response)
       allow(response).to receive(:body).and_return(body)
-
-      allow(Adapters::Bitbucket).to receive(:new).and_return(adapter)
     end
 
     describe '.get_repo' do
@@ -58,11 +51,6 @@ module GitMulticast
 
         get_repo
       end
-
-      it 'adapts result to the standard interface' do
-        expect(adapter).to receive(:adapt)
-        is_expected.to eq(adapted_repo)
-      end
     end
 
     describe '.get_all_repos_from_user' do
@@ -85,12 +73,6 @@ module GitMulticast
 
       it 'builds each repository as a RecursiveOpenStruct' do
         expect(RecursiveOpenStruct).to receive(:new).twice
-
-        get_all_repos_from_user
-      end
-
-      it 'adapts each struct' do
-        expect(adapter).to receive(:adapt).twice
 
         get_all_repos_from_user
       end

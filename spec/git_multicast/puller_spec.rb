@@ -16,6 +16,10 @@ describe GitMulticast::Puller do
     allow(puller).to receive(:waitall).and_return([[1, success], [2, success]])
   end
 
+  after do
+    $stdout = STDOUT
+  end
+
   describe '#pull' do
     subject(:pull) { puller.pull }
 

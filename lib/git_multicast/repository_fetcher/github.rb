@@ -15,6 +15,11 @@ module GitMulticast
 
         repos.map { |hash| make_struct(hash) }
       end
+
+      def self.get_repo(url)
+        response = Net::HTTP.get_response(URI(url))
+        make_struct(JSON.parse(response.body))
+      end
     end
   end
 end
