@@ -1,33 +1,35 @@
-describe GitMulticast::RepositoryFetcher do
-  subject(:fetcher) { described_class }
+module GitMulticast
+  describe RepositoryFetcher do
+    subject(:fetcher) { described_class }
 
-  let(:fetchers) { described_class::FETCHERS }
+    let(:fetchers) { described_class::FETCHERS }
 
-  let(:username) { 'chuck norris' }
+    let(:username) { 'chuck norris' }
 
-  describe '.get_all_repos_from_user' do
-    subject(:get_all_repos_from_user) do
-      fetcher.get_all_repos_from_user(username)
-    end
-
-    it 'gets repositories from all fetchers' do
-      fetchers.each do |e|
-        expect(e).to receive(:get_all_repos_from_user)
+    describe '.get_all_repos_from_user' do
+      subject(:get_all_repos_from_user) do
+        fetcher.get_all_repos_from_user(username)
       end
 
-      get_all_repos_from_user
+      it 'gets repositories from all fetchers' do
+        fetchers.each do |e|
+          expect(e).to receive(:get_all_repos_from_user)
+        end
+
+        get_all_repos_from_user
+      end
     end
-  end
 
-  describe 'self.get_repo_parent' do
-    subject(:get_repo_parent) { fetcher.get_repo_parent(url) }
+    describe 'self.get_repo_parent' do
+      subject(:get_repo_parent) { fetcher.get_repo_parent(url) }
 
-    let(:url) { 'http://bitbucket.im.wrong.as.hell' }
+      let(:url) { 'http://bitbucket.im.wrong.as.hell' }
 
-    it 'delegates to the right fetcher' do
-      expect(GitMulticast::BitbucketFetcher).to receive(:get_repo_parent).with(url)
+      it 'delegates to the right fetcher' do
+        expect(RepositoryFetcher::Bitbucket).to receive(:get_repo_parent).with(url)
 
-      get_repo_parent
+        get_repo_parent
+      end
     end
   end
 end
