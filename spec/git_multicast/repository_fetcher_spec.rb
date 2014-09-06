@@ -19,15 +19,15 @@ describe GitMulticast::RepositoryFetcher do
     end
   end
 
-  describe 'self.get_parent_repo' do
-    subject(:get_parent_repo) { fetcher.get_parent_repo(url) }
+  describe 'self.get_repo_parent' do
+    subject(:get_repo_parent) { fetcher.get_repo_parent(url) }
 
     let(:url) { 'http://bitbucket.im.wrong.as.hell' }
 
     it 'delegates to the right fetcher' do
-      expect(GitMulticast::BitbucketFetcher).to receive(:get_parent_repo).with(url)
+      expect(GitMulticast::BitbucketFetcher).to receive(:get_repo_parent).with(url)
 
-      get_parent_repo
+      get_repo_parent
     end
   end
 end
