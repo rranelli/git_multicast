@@ -15,5 +15,10 @@ module GitMulticast
     def clone(username)
       Cloner.new(username, Dir.pwd).clone!
     end
+
+    desc 'git_multicast version', 'Shows currently installed version'
+    def version
+      puts GitMulticast::VERSION
+    end
   end
 end
