@@ -32,11 +32,11 @@ module GitMulticast
     def make_command(repo)
       if repo.fork
         parent_repo = RepositoryFetcher.get_repo_parent(repo.url)
-        "git clone #{repo.ssh_url} #{ File.join(dir, repo.name) } && \
-git -C \"#{ File.join(dir, repo.name) }\" remote add upstream \
+        "git clone #{repo.ssh_url} #{File.join(dir, repo.name)} && \
+git -C \"#{File.join(dir, repo.name)}\" remote add upstream \
 #{parent_repo.ssh_url} --fetch"
       else
-        "git clone #{repo.ssh_url} #{ File.join(dir, repo.name) }"
+        "git clone #{repo.ssh_url} #{File.join(dir, repo.name)}"
       end
     end
   end

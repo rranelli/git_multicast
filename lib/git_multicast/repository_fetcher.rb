@@ -14,7 +14,9 @@ module GitMulticast
     ]
 
     def self.get_all_repos_from_user(username)
-      multicast(FETCHERS, :get_all_repos_from_user, username).flatten
+      multicast(FETCHERS, :get_all_repos_from_user, username)
+        .flatten
+#TODO: adapt the results
     end
 
     def self.get_repo(url)
