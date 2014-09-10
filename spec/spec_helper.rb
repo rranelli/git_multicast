@@ -1,6 +1,8 @@
+require 'vcr'
+
 require_relative '../lib/git_multicast'
 
-def fixture_path(filename)
-  return '' if filename == ''
-  File.join(File.absolute_path(File.dirname(__FILE__)), 'fixtures', filename)
+VCR.configure do |c|
+  c.cassette_library_dir = 'fixtures/vcr_cassettes'
+  c.hook_into :webmock
 end

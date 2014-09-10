@@ -28,8 +28,7 @@ module GitMulticast
       subject(:clone!) { cloner.clone! }
 
       it 'spawns a clone job for each repo' do
-        expect(cloner).to receive(:spawn)
-          .with("git clone #{repo.ssh_url} /kifita/foo").exactly(3).times
+        expect(cloner).to receive(:spawn).with("git clone #{repo.ssh_url} /kifita/foo").exactly(3).times
 
         clone!
       end

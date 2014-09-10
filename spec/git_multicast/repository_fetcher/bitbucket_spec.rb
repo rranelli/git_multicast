@@ -2,79 +2,81 @@ module GitMulticast
   describe RepositoryFetcher::Bitbucket do
     subject(:fetcher) { described_class }
 
-    let(:uri) { URI(url) }
-    let(:response) { instance_double(Net::HTTPResponse) }
-    let(:body) do
-      '{ "values": [\
-{ "links": { "clone": "I be a body" } },\
-{ "links": { "clone": "I be other body" } }\
-]}'
-    end
-
-    let(:json) do
-      { 'values' =>
-        [
-          { 'links' => { 'clone' => 'I be a body' } },
-          { 'links' => { 'clone' => 'I be other body' } }
-        ]
-      }
-    end
-
-    before do
-      allow(JSON).to receive(:parse).and_return(json)
-
-      allow(Net::HTTP).to receive(:get_response).and_return(response)
-      allow(response).to receive(:body).and_return(body)
-    end
-
     describe '.get_repo' do
       subject(:get_repo) { fetcher.get_repo(url) }
 
-      let(:url) { 'http://example.com/foo/bar/33' }
+      let(:url) do
+        'https://bitbucket.org/api/2.0/repositories/rranelli/cronofaker'
+      end
+      let(:json) do
+        { 'values' =>
+          [
+            { 'links' => { 'clone' => 'I be a body' } },
+            { 'links' => { 'clone' => 'I be other body' } }
+          ]
+        }
+      end
+
+      before do
+        allow(JSON).to receive(:parse).and_return(json)
+      end
 
       it 'calls http get' do
-        expect(Net::HTTP).to receive(:get_response).with(uri)
+        VCR.use_cassette('bitbucket_repository') do
+          expect(Net::HTTP).to receive(:get_response)
+            .with(URI(url)).and_call_original
 
-        get_repo
+          get_repo
+        end
       end
 
       it 'parses the resulting json' do
-        expect(JSON).to receive(:parse).with(body)
+        VCR.use_cassette('bitbucket_repository') do
+          expect(JSON).to receive(:parse)
 
-        get_repo
+          get_repo
+        end
       end
 
       it 'makes a struct with the result body' do
-        expect(RecursiveOpenStruct).to receive(:new).with(
-                                         json, recurse_over_arrays: true
-                                       )
+        VCR.use_cassette('bitbucket_repository') do
+          expect(RecursiveOpenStruct).to receive(:new)
+            .with(json, recurse_over_arrays: true)
 
-        get_repo
+          get_repo
+        end
       end
     end
 
     describe '.get_all_repos_from_user' do
       subject(:get_all_repos_from_user) { fetcher.get_all_repos_from_user(user) }
 
-      let(:user) { 'mrwhite' }
-      let(:url) { 'https://bitbucket.org/api/2.0/repositories/mrwhite' }
+      let(:user) { 'rranelli' }
+      let(:url) { URI('https://bitbucket.org/api/2.0/repositories/rranelli') }
 
       it 'calls http get' do
-        expect(Net::HTTP).to receive(:get_response).with(uri)
+        VCR.use_cassette('bitbucket_all_user_repos') do
+          expect(Net::HTTP).to receive(:get_response)
+            .with(url).and_call_original
 
-        get_all_repos_from_user
+          get_all_repos_from_user
+        end
       end
 
       it 'parses the resulting json' do
-        expect(JSON).to receive(:parse).with(body)
+        VCR.use_cassette('bitbucket_all_user_repos') do
+          expect(JSON).to receive(:parse).and_call_original
 
-        get_all_repos_from_user
+          get_all_repos_from_user
+        end
       end
 
       it 'builds each repository as a RecursiveOpenStruct' do
-        expect(RecursiveOpenStruct).to receive(:new).twice
+        VCR.use_cassette('bitbucket_all_user_repos') do
+          expect(RecursiveOpenStruct).to receive(:new).exactly(3).times
 
-        get_all_repos_from_user
+          get_all_repos_from_user
+        end
       end
     end
   end
