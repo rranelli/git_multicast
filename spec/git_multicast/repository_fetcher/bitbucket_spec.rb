@@ -17,7 +17,7 @@ module GitMulticast
       end
 
       it 'calls http get' do
-        VCR.use_cassette('bitbucket_repository') do
+        VCR.use_cassette('bitbucket_repo') do
           expect(Net::HTTP).to receive(:get_response)
             .with(URI(url)).and_call_original
 
@@ -26,7 +26,7 @@ module GitMulticast
       end
 
       it 'parses the resulting json' do
-        VCR.use_cassette('bitbucket_repository') do
+        VCR.use_cassette('bitbucket_repo') do
           expect(JSON).to receive(:parse)
 
           get_repo
@@ -34,7 +34,7 @@ module GitMulticast
       end
 
       it 'makes a struct with the result body' do
-        VCR.use_cassette('bitbucket_repository') do
+        VCR.use_cassette('bitbucket_repo') do
           expect(RecursiveOpenStruct).to receive(:new)
             .with(json, recurse_over_arrays: true)
 
