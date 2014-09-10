@@ -7,7 +7,7 @@ module GitMulticast
     describe '.get_repo' do
       subject(:get_repo) { fetcher.get_repo(url) }
 
-      let(:url) { 'http://github.com/rranelli/git_multicast.git' }
+      let(:url) { 'https://api.github.com/repos/rranelli/git_multicast' }
       let(:json) do
         { 'value' => 'I be a body' }
       end

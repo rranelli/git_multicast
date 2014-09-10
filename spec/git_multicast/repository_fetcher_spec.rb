@@ -5,10 +5,12 @@ module GitMulticast
     let(:fetchers) { described_class::FETCHERS }
     let(:username) { 'chuck norris' }
 
-    let(:repo) { double(:repo, parent: double(:parent)) }
-
     let(:bb_adapter) { double(:bb_adapter, adapt: nil) }
     let(:gh_adapter) { double(:gh_adapter, adapt: nil) }
+
+    before do
+#      allow(Adapters::Bitbucket).to receive(:new).and_return(bb_adapter)
+    end
 
     describe '.get_all_repos_from_user' do
       subject(:get_all_repos_from_user) do
@@ -24,53 +26,75 @@ module GitMulticast
       end
     end
 
-    describe 'self.get_repo_parent' do
+    describe '.get_repo_parent' do
       subject(:get_repo_parent) { fetcher.get_repo_parent(url) }
 
-      let(:url) { 'http://bitbucket.im.wrong.as.hell' }
-
-      before do
-        allow(RepositoryFetcher::Bitbucket).to receive(:get_repo)
-          .and_return(repo)
-        allow(Adapters::Bitbucket).to receive(:new).and_return(bb_adapter)
-        allow(Adapters::Github).to receive(:new).and_return(gh_adapter)
+      let(:url) do
+        'https://api.github.com/repos/rranelli/git_multicast'
       end
 
       it 'delegates to the right fetcher' do
-        expect(RepositoryFetcher::Bitbucket).to receive(:get_repo).with(url)
-        expect(repo).to receive(:parent)
+        VCR.use_cassette('github_repo')do
+          expect(RepositoryFetcher::Github).to receive(:get_repo)
+            .with(url).and_call_original
 
-        get_repo_parent
+          get_repo_parent
+        end
       end
 
       it 'adapts with the right adapter' do
-        expect(bb_adapter).to receive(:adapt)
+        VCR.use_cassette('github_repo')do
+          expect(Adapters::Github).to receive(:new).and_return(gh_adapter)
+          expect(gh_adapter).to receive(:adapt)
 
-        get_repo_parent
+          get_repo_parent
+        end
+      end
+
+      it 'gets no parent when repo has no parent' do
+        VCR.use_cassette('github_repo')do
+          is_expected.to be_nil
+        end
+      end
+
+      context 'when repository has a parent' do
+        let(:url) do
+          'https://api.github.com/repos/rranelli/ruby-git-hooks'
+        end
+
+        it 'gets the parent' do
+          VCR.use_cassette('github_repo_parent') do
+            upstream_repo_owner = get_repo_parent.owner.login
+
+            expect(upstream_repo_owner).to eq('stupied4ever')
+          end
+        end
       end
     end
 
-    describe 'self.get_repo' do
+    describe '.get_repo' do
       subject(:get_repo) { fetcher.get_repo(url) }
 
-      let(:url) { 'http://github.im.right.as.heaven.but.not' }
-
-      before do
-        allow(RepositoryFetcher::Github).to receive(:get_repo).and_return(repo)
-        allow(Adapters::Bitbucket).to receive(:new).and_return(bb_adapter)
-        allow(Adapters::Github).to receive(:new).and_return(gh_adapter)
+      let(:url) do
+        'https://bitbucket.org/api/2.0/repositories/rranelli/cronofaker'
       end
 
       it 'delegates to the right fetcher' do
-        expect(RepositoryFetcher::Github).to receive(:get_repo).with(url)
+        VCR.use_cassette('bitbucket_repo') do
+          expect(RepositoryFetcher::Bitbucket).to receive(:get_repo)
+            .with(url).and_call_original
 
-        get_repo
+          get_repo
+        end
       end
 
       it 'adapts with the right adapter' do
-        expect(gh_adapter).to receive(:adapt)
+        VCR.use_cassette('bitbucket_repo') do
+          expect(Adapters::Bitbucket).to receive(:new).and_return(bb_adapter)
+          expect(bb_adapter).to receive(:adapt)
 
-        get_repo
+          get_repo
+        end
       end
     end
   end

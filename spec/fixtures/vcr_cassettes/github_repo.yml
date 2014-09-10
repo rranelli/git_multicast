@@ -1,0 +1,77 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.github.com/repos/rranelli/git_multicast
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - api.github.com
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - GitHub.com
+      Date:
+      - Wed, 10 Sep 2014 06:04:40 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Status:
+      - 200 OK
+      X-Ratelimit-Limit:
+      - '60'
+      X-Ratelimit-Remaining:
+      - '58'
+      X-Ratelimit-Reset:
+      - '1410332160'
+      Cache-Control:
+      - public, max-age=60, s-maxage=60
+      Last-Modified:
+      - Sat, 06 Sep 2014 01:56:41 GMT
+      Etag:
+      - '"b334dc74002ce67ecfaa06188e3407b4"'
+      Vary:
+      - Accept
+      - Accept-Encoding
+      X-Github-Media-Type:
+      - github.v3
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Frame-Options:
+      - deny
+      Content-Security-Policy:
+      - default-src 'none'
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Expose-Headers:
+      - ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset,
+        X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Github-Request-Id:
+      - B194B679:3F04:715F0D:540FE9F7
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubdomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Served-By:
+      - d818ddef80f4c7d10683dd483558952a
+    body:
+      encoding: UTF-8
+      string: '{"id":21714703,"name":"git_multicast","full_name":"rranelli/git_multicast","owner":{"login":"rranelli","id":4231743,"avatar_url":"https://avatars.githubusercontent.com/u/4231743?v=2","gravatar_id":"4569aec00cb223b3fbf484f9e7ba1256","url":"https://api.github.com/users/rranelli","html_url":"https://github.com/rranelli","followers_url":"https://api.github.com/users/rranelli/followers","following_url":"https://api.github.com/users/rranelli/following{/other_user}","gists_url":"https://api.github.com/users/rranelli/gists{/gist_id}","starred_url":"https://api.github.com/users/rranelli/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/rranelli/subscriptions","organizations_url":"https://api.github.com/users/rranelli/orgs","repos_url":"https://api.github.com/users/rranelli/repos","events_url":"https://api.github.com/users/rranelli/events{/privacy}","received_events_url":"https://api.github.com/users/rranelli/received_events","type":"User","site_admin":false},"private":false,"html_url":"https://github.com/rranelli/git_multicast","description":"Simple
+        script for cloning github repositories concurrently","fork":false,"url":"https://api.github.com/repos/rranelli/git_multicast","forks_url":"https://api.github.com/repos/rranelli/git_multicast/forks","keys_url":"https://api.github.com/repos/rranelli/git_multicast/keys{/key_id}","collaborators_url":"https://api.github.com/repos/rranelli/git_multicast/collaborators{/collaborator}","teams_url":"https://api.github.com/repos/rranelli/git_multicast/teams","hooks_url":"https://api.github.com/repos/rranelli/git_multicast/hooks","issue_events_url":"https://api.github.com/repos/rranelli/git_multicast/issues/events{/number}","events_url":"https://api.github.com/repos/rranelli/git_multicast/events","assignees_url":"https://api.github.com/repos/rranelli/git_multicast/assignees{/user}","branches_url":"https://api.github.com/repos/rranelli/git_multicast/branches{/branch}","tags_url":"https://api.github.com/repos/rranelli/git_multicast/tags","blobs_url":"https://api.github.com/repos/rranelli/git_multicast/git/blobs{/sha}","git_tags_url":"https://api.github.com/repos/rranelli/git_multicast/git/tags{/sha}","git_refs_url":"https://api.github.com/repos/rranelli/git_multicast/git/refs{/sha}","trees_url":"https://api.github.com/repos/rranelli/git_multicast/git/trees{/sha}","statuses_url":"https://api.github.com/repos/rranelli/git_multicast/statuses/{sha}","languages_url":"https://api.github.com/repos/rranelli/git_multicast/languages","stargazers_url":"https://api.github.com/repos/rranelli/git_multicast/stargazers","contributors_url":"https://api.github.com/repos/rranelli/git_multicast/contributors","subscribers_url":"https://api.github.com/repos/rranelli/git_multicast/subscribers","subscription_url":"https://api.github.com/repos/rranelli/git_multicast/subscription","commits_url":"https://api.github.com/repos/rranelli/git_multicast/commits{/sha}","git_commits_url":"https://api.github.com/repos/rranelli/git_multicast/git/commits{/sha}","comments_url":"https://api.github.com/repos/rranelli/git_multicast/comments{/number}","issue_comment_url":"https://api.github.com/repos/rranelli/git_multicast/issues/comments/{number}","contents_url":"https://api.github.com/repos/rranelli/git_multicast/contents/{+path}","compare_url":"https://api.github.com/repos/rranelli/git_multicast/compare/{base}...{head}","merges_url":"https://api.github.com/repos/rranelli/git_multicast/merges","archive_url":"https://api.github.com/repos/rranelli/git_multicast/{archive_format}{/ref}","downloads_url":"https://api.github.com/repos/rranelli/git_multicast/downloads","issues_url":"https://api.github.com/repos/rranelli/git_multicast/issues{/number}","pulls_url":"https://api.github.com/repos/rranelli/git_multicast/pulls{/number}","milestones_url":"https://api.github.com/repos/rranelli/git_multicast/milestones{/number}","notifications_url":"https://api.github.com/repos/rranelli/git_multicast/notifications{?since,all,participating}","labels_url":"https://api.github.com/repos/rranelli/git_multicast/labels{/name}","releases_url":"https://api.github.com/repos/rranelli/git_multicast/releases{/id}","created_at":"2014-07-11T00:06:16Z","updated_at":"2014-09-06T01:56:41Z","pushed_at":"2014-09-10T05:44:56Z","git_url":"git://github.com/rranelli/git_multicast.git","ssh_url":"git@github.com:rranelli/git_multicast.git","clone_url":"https://github.com/rranelli/git_multicast.git","svn_url":"https://github.com/rranelli/git_multicast","homepage":null,"size":328,"stargazers_count":0,"watchers_count":0,"language":"Ruby","has_issues":true,"has_downloads":true,"has_wiki":true,"forks_count":0,"mirror_url":null,"open_issues_count":0,"forks":0,"open_issues":0,"watchers":0,"default_branch":"master","network_count":0,"subscribers_count":1}'
+    http_version: 
+  recorded_at: Wed, 10 Sep 2014 06:04:40 GMT
+recorded_with: VCR 2.9.3

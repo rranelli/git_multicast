@@ -23,7 +23,7 @@ http_interactions:
       Server:
       - nginx/1.5.10
       Date:
-      - Wed, 10 Sep 2014 05:22:52 GMT
+      - Wed, 10 Sep 2014 06:04:39 GMT
       Content-Type:
       - application/json; charset=utf-8
       Transfer-Encoding:
@@ -31,23 +31,23 @@ http_interactions:
       Connection:
       - keep-alive
       X-Served-By:
-      - app19
+      - app22
       X-Render-Time:
-      - '0.0333890914917'
+      - '0.0394489765167'
       Content-Language:
       - en
       X-Static-Version:
       - a47fb0d97df3
       Expires:
-      - Wed, 10 Sep 2014 05:37:52 GMT
+      - Wed, 10 Sep 2014 06:19:39 GMT
       Vary:
       - Authorization, Accept-Language, Cookie
       Last-Modified:
-      - Wed, 10 Sep 2014 05:22:52 GMT
+      - Wed, 10 Sep 2014 06:04:39 GMT
       X-Version:
       - a47fb0d97df3
       X-Request-Count:
-      - '360'
+      - '210'
       Cache-Control:
       - max-age=900
       X-Frame-Options:
@@ -166,5 +166,5 @@ http_interactions:
         MTk2MSwgImlzX3ByaXZhdGUiOiBmYWxzZSwgIm5hbWUiOiAiUlJXZWJBcHBB
         cmNoIn1dLCAicGFnZSI6IDEsICJzaXplIjogM30=
     http_version: 
-  recorded_at: Wed, 10 Sep 2014 05:22:52 GMT
+  recorded_at: Wed, 10 Sep 2014 06:04:39 GMT
 recorded_with: VCR 2.9.3

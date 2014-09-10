@@ -9,12 +9,7 @@ module GitMulticast
         'https://bitbucket.org/api/2.0/repositories/rranelli/cronofaker'
       end
       let(:json) do
-        { 'values' =>
-          [
-            { 'links' => { 'clone' => 'I be a body' } },
-            { 'links' => { 'clone' => 'I be other body' } }
-          ]
-        }
+        { 'links' => { 'clone' => 'I be a body' } }
       end
 
       before do

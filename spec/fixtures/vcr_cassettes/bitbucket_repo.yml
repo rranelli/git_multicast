@@ -1,0 +1,79 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://bitbucket.org/api/2.0/repositories/rranelli/cronofaker
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - bitbucket.org
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - nginx/1.5.10
+      Date:
+      - Wed, 10 Sep 2014 06:11:45 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Vary:
+      - Authorization, Accept-Language, Cookie
+      X-Served-By:
+      - app15
+      X-Render-Time:
+      - '0.00865006446838'
+      Content-Language:
+      - en
+      Cache-Control:
+      - max-age=900
+      X-Request-Count:
+      - '148'
+      Expires:
+      - Wed, 10 Sep 2014 06:19:38 GMT
+      X-Frame-Options:
+      - SAMEORIGIN
+      Last-Modified:
+      - Wed, 10 Sep 2014 06:04:38 GMT
+      X-Static-Version:
+      - a47fb0d97df3
+      X-Version:
+      - a47fb0d97df3
+      Strict-Transport-Security:
+      - max-age=31536000
+      X-Content-Type-Options:
+      - nosniff
+    body:
+      encoding: UTF-8
+      string: '{"scm": "git", "has_wiki": false, "description": "", "links": {"watchers":
+        {"href": "https://bitbucket.org/api/2.0/repositories/rranelli/cronofaker/watchers"},
+        "commits": {"href": "https://bitbucket.org/api/2.0/repositories/rranelli/cronofaker/commits"},
+        "self": {"href": "https://bitbucket.org/api/2.0/repositories/rranelli/cronofaker"},
+        "html": {"href": "https://bitbucket.org/rranelli/cronofaker"}, "avatar": {"href":
+        "https://d3oaxc4q5k2d6q.cloudfront.net/m/a47fb0d97df3/img/language-avatars/default_16.png"},
+        "forks": {"href": "https://bitbucket.org/api/2.0/repositories/rranelli/cronofaker/forks"},
+        "clone": [{"href": "https://bitbucket.org/rranelli/cronofaker.git", "name":
+        "https"}, {"href": "ssh://git@bitbucket.org/rranelli/cronofaker.git", "name":
+        "ssh"}], "pullrequests": {"href": "https://bitbucket.org/api/2.0/repositories/rranelli/cronofaker/pullrequests"}},
+        "fork_policy": "allow_forks", "language": "", "created_on": "2014-01-20T04:23:17.790837+00:00",
+        "full_name": "rranelli/cronofaker", "has_issues": false, "owner": {"username":
+        "rranelli", "display_name": "renan ranelli", "links": {"self": {"href": "https://bitbucket.org/api/2.0/users/rranelli"},
+        "html": {"href": "https://bitbucket.org/rranelli"}, "avatar": {"href": "https://secure.gravatar.com/avatar/4569aec00cb223b3fbf484f9e7ba1256?d=https%3A%2F%2Fd3oaxc4q5k2d6q.cloudfront.net%2Fm%2Fa47fb0d97df3%2Fimg%2Fdefault_avatar%2F32%2Fuser_blue.png&s=32"}}},
+        "updated_on": "2014-04-23T03:18:44.640264+00:00", "size": 49645876, "is_private":
+        false, "name": "CronoFaker"}'
+    http_version: 
+  recorded_at: Wed, 10 Sep 2014 06:11:46 GMT
+recorded_with: VCR 2.9.3
