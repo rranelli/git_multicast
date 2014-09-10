@@ -45,7 +45,9 @@ module GitMulticast
     end
 
     describe '.get_all_repos_from_user' do
-      subject(:get_all_repos_from_user) { fetcher.get_all_repos_from_user(user) }
+      subject(:get_all_repos_from_user) do
+        fetcher.get_all_repos_from_user(user)
+      end
 
       let(:user) { 'rranelli' }
       let(:url) { 'https://api.github.com/users/rranelli/repos' }

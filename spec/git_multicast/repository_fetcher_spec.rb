@@ -30,7 +30,8 @@ module GitMulticast
       let(:url) { 'http://bitbucket.im.wrong.as.hell' }
 
       before do
-        allow(RepositoryFetcher::Bitbucket).to receive(:get_repo).and_return(repo)
+        allow(RepositoryFetcher::Bitbucket).to receive(:get_repo)
+          .and_return(repo)
         allow(Adapters::Bitbucket).to receive(:new).and_return(bb_adapter)
         allow(Adapters::Github).to receive(:new).and_return(gh_adapter)
       end
