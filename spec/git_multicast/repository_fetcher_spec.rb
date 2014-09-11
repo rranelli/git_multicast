@@ -3,7 +3,7 @@ module GitMulticast
     subject(:fetcher) { described_class }
 
     let(:fetchers) { described_class::FETCHERS }
-    let(:username) { 'chuck norris' }
+    let(:username) { 'rranelli' }
 
     describe '.get_all_repos_from_user' do
       subject(:get_all_repos_from_user) do
@@ -11,25 +11,36 @@ module GitMulticast
       end
 
       it 'gets repositories from all fetchers' do
-        fetchers.each do |e|
-          expect(e).to receive(:get_all_repos_from_user).with(username)
-        end
+        VCR.use_cassette('repos_from_all_services') do
+          fetchers.each do |fetcher|
+            expect(fetcher).to receive(:get_all_repos_from_user)
+               .with(username).and_call_original
+          end
 
-        get_all_repos_from_user
+          get_all_repos_from_user
+        end
+      end
+
+      it 'aggregates all repositories in a single list' do
+        VCR.use_cassette('repos_from_all_services') do
+          repo_names = get_all_repos_from_user.map(&:name)
+
+          expect(get_all_repos_from_user.size).to eq(32)
+          expect(repo_names).to include('git_multicast')
+          expect(repo_names).to include('CronoFaker')
+        end
       end
     end
 
     describe '.get_repo_parent' do
       subject(:get_repo_parent) { fetcher.get_repo_parent(url) }
 
-      let(:gh_adapter) { double(:gh_adapter, adapt: nil) }
-
       let(:url) do
         'https://api.github.com/repos/rranelli/git_multicast'
       end
 
       it 'delegates to the right fetcher' do
-        VCR.use_cassette('github_repo')do
+        VCR.use_cassette('github_repo') do
           expect(RepositoryFetcher::Github).to receive(:get_repo)
             .with(url).and_call_original
 
@@ -38,16 +49,17 @@ module GitMulticast
       end
 
       it 'adapts with the right adapter' do
-        VCR.use_cassette('github_repo')do
-          expect(Adapters::Github).to receive(:new).and_return(gh_adapter)
-          expect(gh_adapter).to receive(:adapt)
+        VCR.use_cassette('github_repo') do
+          expect(Adapters::Github).to receive_message_chain(
+            :new, :adapt, :parent
+          )
 
           get_repo_parent
         end
       end
 
       it 'gets no parent when repo has no parent' do
-        VCR.use_cassette('github_repo')do
+        VCR.use_cassette('github_repo') do
           is_expected.to be_nil
         end
       end
