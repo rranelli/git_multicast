@@ -28,17 +28,13 @@ module GitMulticast
       _, statuses = waitall.transpose
 
       output = read_output(streams)
-
       output.zip(statuses)
     end
 
     def spawn_processes(repos)
       repos.map do |repo|
         r, w = IO.pipe
-        w.write(
-          "==========#{'=' * repo.name.size}\n" \
-          "Clonning: #{repo.name}\n" \
-        )
+        w.write("Clonning: #{repo.name}\n")
         spawn(make_command(repo), out: w, err: w)
         [r, w]
       end
