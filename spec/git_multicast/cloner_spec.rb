@@ -37,7 +37,7 @@ module GitMulticast
         VCR.use_cassette('clone_repos') do
           expect(cloner).to receive(:spawn)
             .with("git clone git@github.com:rranelli/#{repo_name}.git" \
-            ' /kifita/git_multicast')
+            ' /kifita/git_multicast', out: w, err: w)
 
           clone!
         end
@@ -53,8 +53,8 @@ module GitMulticast
               "git clone git@github.com:rranelli/ruby-#{repo_name}.git " \
               "/kifita/ruby-#{repo_name} && git -C \"/kifita/ruby-#{repo_name}\"" \
               ' remote add upstream ' \
-              "git@github.com:stupied4ever/#{repo_name}.git --fetch"
-              )
+              "git@github.com:stupied4ever/#{repo_name}.git --fetch",
+              out: w, err: w)
 
             clone!
           end

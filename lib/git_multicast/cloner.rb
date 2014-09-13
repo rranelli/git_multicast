@@ -23,25 +23,32 @@ module GitMulticast
     attr_reader :username, :dir
 
     def clone_em_all!(repos)
-      streams = repos.map do |repo|
-        r, w = IO.pipe
-        w.write(
-          "==========#{"\"" * repo.name.size}n" \
-          "Clonning: #{repo.name}\n" \
-          "==========#{"\"" * repo.name.size}\n"
-        )
-        spawn(make_command(repo), out: w)
-        [r, w]
-      end
+      streams = spawn_processes(repos)
 
       _, statuses = waitall.transpose
 
-      output = streams.map do |r, w|
-        w.close
-        r.read
-      end
+      output = read_output(streams)
 
       output.zip(statuses)
+    end
+
+    def spawn_processes(repos)
+      repos.map do |repo|
+        r, w = IO.pipe
+        w.write(
+          "==========#{'=' * repo.name.size}\n" \
+          "Clonning: #{repo.name}\n" \
+        )
+        spawn(make_command(repo), out: w, err: w)
+        [r, w]
+      end
+    end
+
+    def read_output(streams)
+      streams.map do |r, w|
+        w.close unless w.closed?
+        r.read
+      end
     end
 
     def make_command(repo)
