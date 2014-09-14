@@ -13,9 +13,9 @@ module GitMulticast
     def clone!
       start_time = Time.now
       repos = RepositoryFetcher.get_all_repos_from_user(username)
-      statuses = clone_em_all!(repos)
+      output_status_zip = clone_em_all!(repos)
 
-      OutputFormatter.format(repos, statuses, start_time)
+      OutputFormatter.format(output_status_zip, start_time)
     end
 
     protected
@@ -23,10 +23,28 @@ module GitMulticast
     attr_reader :username, :dir
 
     def clone_em_all!(repos)
+      streams = spawn_processes(repos)
+
+      _, statuses = waitall.transpose
+
+      output = read_output(streams)
+      output.zip(statuses)
+    end
+
+    def spawn_processes(repos)
       repos.map do |repo|
-        spawn(make_command(repo))
+        r, w = IO.pipe
+        w.write("Clonning: #{repo.name}\n")
+        spawn(make_command(repo), out: w, err: w)
+        [r, w]
       end
-      waitall.map { |_, status| status }
+    end
+
+    def read_output(streams)
+      streams.map do |r, w|
+        w.close unless w.closed?
+        r.read
+      end
     end
 
     def make_command(repo)

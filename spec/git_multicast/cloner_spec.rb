@@ -2,25 +2,23 @@ module GitMulticast
   describe Cloner do
     subject(:cloner) { described_class.new(username, dir) }
 
-    let(:username) { 'ironman' }
+    let(:username) { 'rranelli' }
     let(:dir) { '/kifita/' }
 
-    let(:repo) do
-      double(
-        :repo,
-        ssh_url: 'git@hubgit.com:bar/foo',
-        url: 'http://hubgit.com/bar/foo',
-        fork: false,
-        name: 'foo')
-    end
-    let(:repos) { [repo] * 3 }
+    let(:repo_name) { 'git_multicast' }
+
+    let(:pipe) { IO.pipe }
+    let(:r) { pipe.first }
+    let(:w) { pipe[1] }
 
     before do
       allow(cloner).to receive(:spawn).and_return(nil)
-      allow(cloner).to receive(:waitall).and_return([])
+      allow(cloner).to receive(:waitall).and_return(
+        [[nil, double(:success, success?: true)]] * 32
+      )
 
-      allow(RepositoryFetcher).to receive(:get_all_repos_from_user)
-        .and_return(repos)
+      allow(IO).to receive(:pipe).and_return([r, w])
+
       allow(OutputFormatter).to receive(:format)
     end
 
@@ -28,41 +26,38 @@ module GitMulticast
       subject(:clone!) { cloner.clone! }
 
       it 'spawns a clone job for each repo' do
-        expect(cloner).to receive(:spawn)
-          .with("git clone #{repo.ssh_url} /kifita/foo").exactly(3).times
+        VCR.use_cassette('clone_repos') do
+          expect(cloner).to receive(:spawn).exactly(32).times
 
-        clone!
+          clone!
+        end
+      end
+
+      it 'spawns a clone with the right parameters' do
+        VCR.use_cassette('clone_repos') do
+          expect(cloner).to receive(:spawn)
+            .with("git clone git@github.com:rranelli/#{repo_name}.git" \
+            ' /kifita/git_multicast', out: w, err: w)
+
+          clone!
+        end
       end
 
       context 'when repo is a fork'do
-        let(:parent_repo) do
-          double(:parent, ssh_url: 'git@hubgit.com:parent/repo')
-        end
-
-        before do
-          allow(RepositoryFetcher).to receive(
-            :get_repo_parent
-          ).and_return(parent_repo)
-
-          allow(repo).to receive(:fork).and_return(true)
-        end
-
-        it 'gets parent repository by url' do
-          expect(RepositoryFetcher).to receive(:get_repo_parent)
-            .with(repo.url)
-
-          clone!
-        end
+        let(:repo_name) { 'git-hooks' }
 
         it 'adds upstream remote' do
-          expect(cloner).to receive(:spawn)
-            .with(
-            "git clone #{repo.ssh_url} /kifita/foo && \
-git -C \"/kifita/foo\" remote add upstream #{parent_repo.ssh_url} \
---fetch"
-            )
+          VCR.use_cassette('clone_repos') do
+            expect(cloner).to receive(:spawn)
+              .with(
+              "git clone git@github.com:rranelli/ruby-#{repo_name}.git " \
+              "/kifita/ruby-#{repo_name} && git -C \"/kifita/ruby-#{repo_name}\"" \
+              ' remote add upstream ' \
+              "git@github.com:stupied4ever/#{repo_name}.git --fetch",
+              out: w, err: w)
 
-          clone!
+            clone!
+          end
         end
       end
     end

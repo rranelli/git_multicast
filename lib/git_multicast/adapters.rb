@@ -1,5 +1,7 @@
 require_relative 'adapters/bitbucket'
 require_relative 'adapters/github'
 
-module Adapters
+module GitMulticast
+  module Adapters
+  end
 end
