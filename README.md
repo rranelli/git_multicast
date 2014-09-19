@@ -1,3 +1,5 @@
+[![git_multicast API Documentation](https://www.omniref.com/ruby/gems/git_multicast.png)](https://www.omniref.com/ruby/gems/git_multicast)
+
 # Multicast your git actions.
 
 Have you ever need to clone a whole bunch of repositories? Have you forgot to pull remote changes?
