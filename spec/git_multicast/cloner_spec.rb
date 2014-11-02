@@ -27,7 +27,7 @@ module GitMulticast
 
       it 'spawns a clone job for each repo' do
         VCR.use_cassette('clone_repos') do
-          expect(cloner).to receive(:spawn).exactly(32).times
+          expect(cloner).to receive(:spawn).exactly(43).times
 
           clone!
         end
