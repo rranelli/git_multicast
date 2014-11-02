@@ -6,19 +6,30 @@ module GitMulticast
     class Github < RepositoryFetcher
       REPOS_URI = 'https://api.github.com/users/%{username}/repos'
 
-      def self.get_all_repos_from_user(username)
-        uri_str = REPOS_URI % { username: username }
+      def self.get_all_repos_from_user(username, uri_str = make_uri(username))
         uri = URI(uri_str)
 
         response = Net::HTTP.get_response(uri)
         repos = JSON.parse(response.body)
 
-        repos.map { |hash| make_struct(hash) }
+        built_repos = repos.map { |hash| make_struct(hash) }
+
+        if response['Link'] =~ /rel=\"next\"/
+          next_uri = response['Link'].match(/<(.*)>; rel=\"next\"/)[1]
+
+          built_repos + get_all_repos_from_user(username, next_uri)
+        else
+          built_repos
+        end
       end
 
       def self.get_repo(url)
         response = Net::HTTP.get_response(URI(url))
         make_struct(JSON.parse(response.body))
+      end
+
+      def self.make_uri(username)
+        REPOS_URI % { username: username }
       end
     end
   end
