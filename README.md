@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/rranelli/git_multicast.svg?branch=0.1.0)](https://travis-ci.org/rranelli/git_multicast)
 [![Gem Version](https://badge.fury.io/rb/git_multicast.svg)](http://badge.fury.io/rb/git_multicast)
 [![git_multicast API Documentation](https://www.omniref.com/ruby/gems/git_multicast.png)](https://www.omniref.com/ruby/gems/git_multicast)
 
