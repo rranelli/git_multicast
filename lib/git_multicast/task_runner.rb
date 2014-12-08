@@ -2,16 +2,16 @@ module GitMulticast
   class TaskRunner
     include Process
 
-    def initialize(tasks)
+    def initialize(tasks, formatter = OutputFormatter.new(Time.now))
       @tasks = tasks
-      @formatter = OutputFormatter.new(Time.now)
+      @formatter = formatter
     end
 
     def run!
       tasks
         .map(&method(:future))
         .map(&:get)
-        .inject("", &:+)
+        .inject('', &:+)
     end
 
     protected
@@ -30,7 +30,8 @@ module GitMulticast
       end
 
       def get
-        thread.join and thread[:output]
+        thread.join
+        thread[:output]
       end
 
       attr_reader :thread
