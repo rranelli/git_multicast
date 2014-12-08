@@ -1,6 +1,6 @@
 require 'thor'
 
-require_relative '../git_multicast'
+require 'git_multicast'
 
 module GitMulticast
   class Cli < Thor
