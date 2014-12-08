@@ -15,11 +15,12 @@ just as long as cloning the biggest one, and nothing more.
 
 Actions currently supported:
 
-* Git clone all repositories of an user or organization (github only).
+* Git clone all repositories of an user or organization (github & bitbucket).
 * Git pull all repositories in a directory.
+* Git status all repositories in a directory.
 
 Actions to be supported:
 
-* Git clone repositories from hosts other than github.
-* Pass options to git pull.
-* Schedule git mass pull
+* Git clone repositories from Gitlab.
+* Pass options to git pull. (e.g., force, rebase, dry-run, etc.)
+* Pass options to git status. (e.g., show only those that have modifications)
