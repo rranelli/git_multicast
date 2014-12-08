@@ -23,7 +23,6 @@ module GitMulticast
           is_expected.to match(/\[Error\]/)
             .and match(/#{result}/)
             .and match(/-+$/)
-            .and match(/^\n$/)
         end
       end
     end

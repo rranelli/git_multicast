@@ -7,27 +7,53 @@ module GitMulticast
 
     let(:repo_name) { 'git_multicast' }
 
-    let(:pipe) { IO.pipe }
-    let(:r) { pipe.first }
-    let(:w) { pipe[1] }
-
     before do
-      allow(cloner).to receive(:spawn).and_return(nil)
-      allow(cloner).to receive(:waitall).and_return(
-        [[nil, double(:success, success?: true)]] * 32
-      )
+      allow(task).to receive(:spawn)
+        .and_return(pid)
+      allow(task).to receive(:wait)
+        .and_return(['', 0])
 
-      allow(IO).to receive(:pipe).and_return([r, w])
-
-      allow(OutputFormatter).to receive(:format)
+      allow(Task).to receive(:new)
+        .and_return(task)
     end
+
+    let(:task) { instance_double(Task, call: result) }
+    let(:result) { TaskResult.new(repo_name, 'success', 0) }
+
+    let(:pid) { 42 }
 
     describe '#clone!' do
       subject(:clone!) { cloner.clone! }
 
+      it do
+        VCR.use_cassette('clone_repos') do
+          expect(RepositoryFetcher).to receive(:get_all_repos_from_user)
+            .with(username)
+            .and_call_original
+
+          clone!
+        end
+      end
+
+      it 'creates a task for each fetched repository' do
+        VCR.use_cassette('clone_repos') do
+          expect(Task).to receive(:new).exactly(43).times
+
+          clone!
+        end
+      end
+
+      it 'creates a task runner and asks it to run all tasks' do
+        VCR.use_cassette('clone_repos') do
+          expect(TaskRunner).to receive_message_chain(:new, :run!)
+
+          clone!
+        end
+      end
+
       it 'spawns a clone job for each repo' do
         VCR.use_cassette('clone_repos') do
-          expect(cloner).to receive(:spawn).exactly(43).times
+          expect(task).to receive(:call).exactly(43).times
 
           clone!
         end
@@ -35,26 +61,29 @@ module GitMulticast
 
       it 'spawns a clone with the right parameters' do
         VCR.use_cassette('clone_repos') do
-          expect(cloner).to receive(:spawn)
-            .with("git clone git@github.com:rranelli/#{repo_name}.git" \
-            ' /kifita/git_multicast', out: w, err: w)
+          clone_command = "git clone git@github.com:rranelli/#{repo_name}.git" \
+            ' /kifita/git_multicast'
+
+          expect(Task).to receive(:new)
+            .with(repo_name, clone_command)
 
           clone!
         end
       end
 
       context 'when repo is a fork'do
-        let(:repo_name) { 'git-hooks' }
+        let(:repo_name) { 'emacs.d' }
 
         it 'adds upstream remote' do
           VCR.use_cassette('clone_repos') do
-            expect(cloner).to receive(:spawn)
+            expect(Task).to receive(:new)
               .with(
-              "git clone git@github.com:rranelli/ruby-#{repo_name}.git " \
-              "/kifita/ruby-#{repo_name} && git -C \"/kifita/ruby-#{repo_name}\"" \
+              repo_name,
+              "git clone git@github.com:rranelli/#{repo_name}.git " \
+              "/kifita/#{repo_name} && git -C \"/kifita/#{repo_name}\"" \
               ' remote add upstream ' \
-              "git@github.com:stupied4ever/#{repo_name}.git --fetch",
-              out: w, err: w)
+              "git@github.com:purcell/#{repo_name}.git --fetch"
+              )
 
             clone!
           end

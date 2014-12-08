@@ -13,7 +13,7 @@ module GitMulticast
     desc 'git_multicast clone :username', 'Git pulls all repositories\
  contained in current directory.'
     def clone(username)
-      Cloner.new(username, Dir.pwd).clone!
+      puts Cloner.new(username, Dir.pwd).clone!
     end
 
     desc 'git_multicast status', 'Shows status for each repository'
