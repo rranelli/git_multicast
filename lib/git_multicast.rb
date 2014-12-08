@@ -4,6 +4,10 @@ require_relative 'git_multicast/puller'
 require_relative 'git_multicast/output_formatter'
 require_relative 'git_multicast/statuser'
 
+require_relative 'git_multicast/task_runner'
+require_relative 'git_multicast/task_result'
+require_relative 'git_multicast/task'
+
 require_relative 'git_multicast/adapters'
 require_relative 'git_multicast/repository_fetcher'
 

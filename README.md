@@ -1,3 +1,4 @@
+[![Gem Version](https://badge.fury.io/rb/git_multicast.svg)](http://badge.fury.io/rb/git_multicast)
 [![git_multicast API Documentation](https://www.omniref.com/ruby/gems/git_multicast.png)](https://www.omniref.com/ruby/gems/git_multicast)
 
 # Multicast your git actions.

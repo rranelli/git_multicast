@@ -5,39 +5,34 @@ module GitMulticast
     let(:dir) { '/ki/fita/' }
     let(:entries) { ['fita1', 'fita2'] }
 
-    let(:pipe) { IO.pipe }
-    let(:r) { pipe.first }
-    let(:w) { pipe[1] }
+    let(:task) { instance_double(Task, call: result) }
+    let(:result) { TaskResult.new('fitas', 'success', 0) }
 
     before do
-      $stdout = StringIO.new
-
-      allow(statuser).to receive(:spawn).and_return(nil)
-      allow(statuser).to receive(:waitall).and_return(
-        [[nil, double(:success, success?: true)]] * 32
-      )
-
-      allow(IO).to receive(:pipe).and_return([r, w])
       allow(File).to receive(:directory?).and_return(true)
       allow(Dir).to receive(:entries).and_return(entries)
 
-      allow(OutputFormatter).to receive(:format)
+      allow(Task).to receive(:new)
+        .and_return(task)
     end
 
-    after do
-      $stdout = STDOUT
-    end
+    describe '#statuses!' do
+      subject(:statuses!) { statuser.statuses! }
 
-    describe '#get_statuses' do
-      subject(:get_statuses) { statuser.get_statuses }
-
-      it 'spawns a clone job for each repo' do
+      it 'creates a task for each repository' do
         entries.each do |entry|
-          expect(statuser).to receive(:spawn)
-            .with("cd #{entry} && git status", out: w, err: w)
+          expect(Task).to receive(:new)
+            .with(entry, "cd #{entry} && git status")
         end
 
-        get_statuses
+        statuses!
+      end
+
+      it 'runs tasks using a runner' do
+        expect(TaskRunner).to receive(:new)
+          .with([task, task]).and_call_original
+
+        statuses!
       end
     end
   end

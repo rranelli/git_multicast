@@ -1,42 +1,28 @@
 module GitMulticast
   class Statuser
-    include Process
-
-    attr_reader :dir
-
     def initialize(dir)
       @dir = dir
     end
 
-    def get_statuses
-      start_time = Time.now
-      output_status_zip = statuses
-
-      OutputFormatter.format(output_status_zip, start_time)
-    end
-
-    def statuses
-      dirs = Dir.entries(dir)
+    def statuses!
+      tasks = Dir.entries(dir)
         .select { |f| File.directory? f }
         .reject { |f| f =~ /^\./  } # ., .. and .git and the like
+        .map { |dir| Task.new(description(dir), command(dir)) }
 
-      streams = dirs.map do |dir|
-        r, w = IO.pipe
-        w.write("Repo: #{dir}\n")
-        spawn("cd #{dir} && git status", out: w, err: w)
-        [r, w]
-      end
-      _, statuses = waitall.transpose
-
-      output = read_output(streams)
-      output.zip(statuses)
+      TaskRunner.new(tasks).run!
     end
 
-    def read_output(streams)
-      streams.map do |r, w|
-        w.close unless w.closed?
-        r.read
-      end
+    protected
+
+    attr_reader :dir
+
+    def command(dir)
+      "cd #{dir} && git status"
+    end
+
+    def description(dir)
+      File.basename(dir)
     end
   end
 end
