@@ -12,7 +12,7 @@ module GitMulticast
       repos = RepositoryFetcher.get_all_repos_from_user(username)
 
       tasks = repos.map do |repo|
-        Task.new(repo.name, make_command(repo))
+        Task.new(repo.name, command(repo))
       end
 
       TaskRunner.new(tasks).run!
@@ -22,7 +22,7 @@ module GitMulticast
 
     attr_reader :username, :dir
 
-    def make_command(repo)
+    def command(repo)
       if repo.fork
         parent_repo = RepositoryFetcher.get_repo_parent(repo.url)
         "git clone #{repo.ssh_url} #{File.join(dir, repo.name)} && \
