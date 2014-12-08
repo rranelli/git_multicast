@@ -23,9 +23,9 @@ module GitMulticast
     end
 
     class PoorMansFuture
-      def initialize(&block)
+      def initialize
         @thread = Thread.new do
-          Thread.current[:output] = block.call
+          Thread.current[:output] = yield
         end
       end
 
