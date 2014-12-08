@@ -18,7 +18,7 @@ module GitMulticast
 
     desc 'git_multicast status', 'Shows status for each repository'
     def status
-      Statuser.new(Dir.pwd).get_statuses
+      puts Statuser.new(Dir.pwd).statuses!
     end
 
     desc 'git_multicast version', 'Shows currently installed version'
