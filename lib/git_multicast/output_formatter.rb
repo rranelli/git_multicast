@@ -1,3 +1,5 @@
+require 'colorize'
+
 module GitMulticast
   class OutputFormatter
     def initialize(start_time = nil)
@@ -7,11 +9,10 @@ module GitMulticast
     def single_format(task_result)
       case task_result.exit_status
       when 0
-        "[Success] #{task_result.name} #{time_report}"
+        '[Success]'.green + " #{task_result.name} #{time_report}"
       else
         <<EOF
-#{'-' * 25}
-[Error] #{task_result.name}
+#{'[Error]'.red} #{task_result.name}
 #{task_result.result}
 #{'-' * 25}
 EOF
