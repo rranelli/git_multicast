@@ -28,7 +28,7 @@ module GitMulticast
         statuses!
       end
 
-      it 'runs those tasks using a runner' do
+      it 'runs tasks using a runner' do
         expect(TaskRunner).to receive(:new)
           .with([task, task]).and_call_original
 
