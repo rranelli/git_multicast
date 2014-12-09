@@ -50,7 +50,7 @@ module GitMulticast
 
       it 'adapts with the right adapter' do
         VCR.use_cassette('github_repo') do
-          expect(Adapters::Github).to receive_message_chain(
+          expect(Adapter::Github).to receive_message_chain(
             :new, :adapt, :parent
           )
 
@@ -99,7 +99,7 @@ module GitMulticast
 
       it 'adapts with the right adapter' do
         VCR.use_cassette('bitbucket_repo') do
-          expect(Adapters::Bitbucket).to receive(:new).and_return(bb_adapter)
+          expect(Adapter::Bitbucket).to receive(:new).and_return(bb_adapter)
           expect(bb_adapter).to receive(:adapt)
 
           get_repo

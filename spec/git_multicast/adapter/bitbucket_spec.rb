@@ -1,5 +1,5 @@
 module GitMulticast
-  describe Adapters::Bitbucket do
+  describe Adapter::Bitbucket do
     subject(:adapter) { described_class.new(repo) }
 
     describe '#adapt' do
