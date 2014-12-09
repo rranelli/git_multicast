@@ -1,6 +1,3 @@
-require 'net/http'
-require 'json'
-
 module GitMulticast
   class Cloner
     def initialize(username, dir)

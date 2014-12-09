@@ -1,7 +1,5 @@
 module GitMulticast
   class TaskRunner
-    include Process
-
     def initialize(tasks, formatter = OutputFormatter.new(Time.now))
       @tasks = tasks
       @formatter = formatter

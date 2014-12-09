@@ -1,6 +1,9 @@
 require_relative 'repository_fetcher/github'
 require_relative 'repository_fetcher/bitbucket'
 
+require 'net/http'
+require 'json'
+
 module GitMulticast
   class RepositoryFetcher
     FETCHER_ADAPTER_ZIP = [
