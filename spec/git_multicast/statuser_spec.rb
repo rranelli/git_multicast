@@ -16,8 +16,8 @@ module GitMulticast
         .and_return(task)
     end
 
-    describe '#statuses!' do
-      subject(:statuses!) { statuser.statuses! }
+    describe '#execute!' do
+      subject(:execute!) { statuser.execute! }
 
       it 'creates a task for each repository' do
         entries.each do |entry|
@@ -25,14 +25,14 @@ module GitMulticast
             .with(entry, "cd #{entry} && git status")
         end
 
-        statuses!
+        execute!
       end
 
       it 'runs tasks using a runner' do
         expect(TaskRunner).to receive(:new)
           .with([task, task]).and_call_original
 
-        statuses!
+        execute!
       end
     end
   end

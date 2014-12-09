@@ -1,28 +1,21 @@
 module GitMulticast
-  class Cloner
+  class Cloner < Multicaster
     def initialize(username, dir, formatter = OutputFormatter.new(Time.now))
       @username = username
       @dir = dir
-      @formatter = formatter
-    end
 
-    def clone!
-      repos = RepositoryFetcher.get_all_repos_from_user(username)
-
-      tasks = repos.map do |repo|
-        Task.new(repo.name, command(repo))
-      end
-
-      TaskRunner
-        .new(tasks)
-        .run!
-        .map(&method(:format))
-        .reduce('', &:+)
+      super(formatter)
     end
 
     protected
 
-    attr_reader :username, :dir, :formatter
+    attr_reader :username, :dir
+
+    def tasks
+      RepositoryFetcher
+        .get_all_repos_from_user(username)
+        .map { |repo| Task.new(repo.name, command(repo)) }
+    end
 
     def format(task_result)
       formatter.format(task_result)

@@ -12,7 +12,7 @@ module GitMulticast
 
     protected
 
-    attr_reader :tasks, :formatter
+    attr_reader :tasks
 
     def future(task)
       PoorMansFuture.new { task.call }

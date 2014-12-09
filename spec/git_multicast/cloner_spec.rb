@@ -22,8 +22,8 @@ module GitMulticast
 
     let(:pid) { 42 }
 
-    describe '#clone!' do
-      subject(:clone!) { cloner.clone! }
+    describe '#execute!' do
+      subject(:execute!) { cloner.execute! }
 
       it do
         VCR.use_cassette('clone_repos') do
@@ -31,7 +31,7 @@ module GitMulticast
             .with(username)
             .and_call_original
 
-          clone!
+          execute!
         end
       end
 
@@ -39,7 +39,7 @@ module GitMulticast
         VCR.use_cassette('clone_repos') do
           expect(Task).to receive(:new).exactly(43).times
 
-          clone!
+          execute!
         end
       end
 
@@ -48,7 +48,7 @@ module GitMulticast
           expect(TaskRunner).to receive_message_chain(:new, :run!)
             .and_return([])
 
-          clone!
+          execute!
         end
       end
 
@@ -56,7 +56,7 @@ module GitMulticast
         VCR.use_cassette('clone_repos') do
           expect(task).to receive(:call).exactly(43).times
 
-          clone!
+          execute!
         end
       end
 
@@ -68,7 +68,7 @@ module GitMulticast
           expect(Task).to receive(:new)
             .with(repo_name, clone_command)
 
-          clone!
+          execute!
         end
       end
 
@@ -86,7 +86,7 @@ module GitMulticast
               "git@github.com:purcell/#{repo_name}.git --fetch"
               )
 
-            clone!
+            execute!
           end
         end
       end

@@ -16,8 +16,8 @@ module GitMulticast
         .and_return(task)
     end
 
-    describe '#pull!' do
-      subject(:pull!) { puller.pull! }
+    describe '#execute!' do
+      subject(:execute!) { puller.execute! }
 
       it 'creates a task for each repository' do
         entries.each do |entry|
@@ -25,14 +25,14 @@ module GitMulticast
             .with(entry, "git -C #{entry} pull -r origin")
         end
 
-        pull!
+        execute!
       end
 
       it 'runs tasks using a runner' do
         expect(TaskRunner).to receive(:new)
           .with([task, task]).and_call_original
 
-        pull!
+        execute!
       end
     end
   end

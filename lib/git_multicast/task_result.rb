@@ -3,5 +3,9 @@ module GitMulticast
     def to_s
       result
     end
+
+    def success?
+      exit_status.zero?
+    end
   end
 end
