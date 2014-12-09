@@ -9,12 +9,11 @@ module GitMulticast
     def format(task_result)
       case task_result.exit_status
       when 0
-        '[Success]'.green + " #{task_result.name} #{time_report}"
+        '[Success]'.green + " #{task_result.name}#{time_report}\n"
       else
         <<EOF
 #{'[Error]'.red} #{task_result.name}
 #{task_result.result}
-#{'-' * 25}
 EOF
       end
     end
@@ -24,7 +23,7 @@ EOF
     attr_reader :start_time
 
     def time_report
-      "in #{Time.now - start_time} seconds" unless start_time.nil?
+      " | executed in #{Time.now - start_time} seconds" unless start_time.nil?
     end
   end
 end
