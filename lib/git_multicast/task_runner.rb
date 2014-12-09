@@ -19,7 +19,7 @@ module GitMulticast
     attr_reader :tasks, :formatter
 
     def future(task)
-      PoorMansFuture.new { formatter.single_format(task.call) }
+      PoorMansFuture.new { formatter.format(task.call) }
     end
 
     class PoorMansFuture

@@ -39,10 +39,10 @@ module GitMulticast
       end
 
       it 'formats each output' do
-        expect(formatter).to receive(:single_format)
+        expect(formatter).to receive(:format)
           .with(first_result)
           .and_call_original
-        expect(formatter).to receive(:single_format)
+        expect(formatter).to receive(:format)
           .with(second_result)
           .and_call_original
 

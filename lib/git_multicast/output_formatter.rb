@@ -6,7 +6,7 @@ module GitMulticast
       @start_time = start_time
     end
 
-    def single_format(task_result)
+    def format(task_result)
       case task_result.exit_status
       when 0
         '[Success]'.green + " #{task_result.name} #{time_report}"

@@ -8,8 +8,8 @@ module GitMulticast
 
     let(:result) { TaskResult.new(name, result_string, exit_status) }
 
-    describe '.single_format' do
-      subject(:single_format) { formatter.single_format(result) }
+    describe '.format' do
+      subject(:format) { formatter.format(result) }
 
       it do
         is_expected.to match(/\[Success\]/)
