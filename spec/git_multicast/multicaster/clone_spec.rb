@@ -63,11 +63,11 @@ module GitMulticast
 
         it 'spawns a clone with the right parameters' do
           VCR.use_cassette('clone_repos') do
-            clone_command = "git clone git@github.com:rranelli/#{repo_name}.git" \
+            command = "git clone git@github.com:rranelli/#{repo_name}.git" \
               ' /kifita/git_multicast'
 
             expect(Task).to receive(:new)
-              .with(repo_name, clone_command)
+              .with(repo_name, command)
 
             execute!
           end
