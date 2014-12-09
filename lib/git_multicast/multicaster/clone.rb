@@ -1,7 +1,7 @@
 module GitMulticast
   class Multicaster
     class Clone < Multicaster
-      def initialize(username, dir, formatter = OutputFormatter.new(Time.now))
+      def initialize(username, dir, formatter = Formatter::Standard.new(Time.now))
         @username = username
         @dir = dir
 

@@ -1,7 +1,7 @@
 module GitMulticast
   class Multicaster
     class Pull < Multicaster
-      def initialize(dir, formatter = OutputFormatter.new(Time.now))
+      def initialize(dir, formatter = Formatter::Standard.new(Time.now))
         @dir = dir
 
         super(formatter)

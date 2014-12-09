@@ -12,10 +12,10 @@ module GitMulticast
       let!(:first_result) { Task::Result.new(:one, 'Hey!', 1) }
       let!(:second_result) { Task::Result.new(:two, 'Ho!', 1) }
 
-      let(:formatter) { OutputFormatter.new }
+      let(:formatter) { Formatter::Standard.new }
 
       before do
-        allow(OutputFormatter).to receive(:new)
+        allow(Formatter::Standard).to receive(:new)
           .and_return(formatter)
       end
 

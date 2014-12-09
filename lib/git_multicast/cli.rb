@@ -34,9 +34,9 @@ module GitMulticast
 
     def formatter(quiet = nil)
       if quiet
-        QuietFormatter.new(Time.now)
+        Formatter::Quiet.new(Time.now)
       else
-        OutputFormatter.new(Time.now)
+        Formatter::Standard.new(Time.now)
       end
     end
   end
