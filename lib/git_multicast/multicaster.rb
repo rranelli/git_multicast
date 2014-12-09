@@ -1,3 +1,7 @@
+require_relative 'multicaster/clone'
+require_relative 'multicaster/pull'
+require_relative 'multicaster/status'
+
 module GitMulticast
   class Multicaster
     def initialize(formatter)

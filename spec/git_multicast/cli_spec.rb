@@ -16,7 +16,7 @@ module GitMulticast
       subject(:pull) { cli.pull }
 
       it do
-        expect(Puller).to receive_message_chain(:new, :execute!)
+        expect(Multicaster::Pull).to receive_message_chain(:new, :execute!)
 
         pull
       end
@@ -26,7 +26,7 @@ module GitMulticast
       subject(:status) { cli.status }
 
       it do
-        expect(Statuser).to receive_message_chain(:new, :execute!)
+        expect(Multicaster::Status).to receive_message_chain(:new, :execute!)
 
         status
       end
@@ -38,7 +38,7 @@ module GitMulticast
       let(:username) { 'someone' }
 
       it do
-        expect(Cloner).to receive_message_chain(:new, :execute!)
+        expect(Multicaster::Clone).to receive_message_chain(:new, :execute!)
 
         clone
       end
