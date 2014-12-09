@@ -14,7 +14,7 @@ module GitMulticast
         VCR.use_cassette('repos_from_all_services') do
           fetchers.each do |fetcher|
             expect(fetcher).to receive(:get_all_repos_from_user)
-               .with(username).and_call_original
+              .with(username).and_call_original
           end
 
           get_all_repos_from_user

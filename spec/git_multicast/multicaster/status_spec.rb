@@ -4,7 +4,7 @@ module GitMulticast
       subject(:statuser) { described_class.new(dir) }
 
       let(:dir) { '/ki/fita/' }
-      let(:entries) { ['fita1', 'fita2'] }
+      let(:entries) { %w(fita1 fita2) }
 
       let(:task) { instance_double(Task, call: result) }
       let(:result) { Task::Result.new('fitas', 'success', 0) }

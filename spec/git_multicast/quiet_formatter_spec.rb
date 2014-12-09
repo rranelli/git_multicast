@@ -2,9 +2,9 @@ module GitMulticast
   describe QuietFormatter do
     subject(:formatter) { described_class.new }
 
-    let(:name) { "some action" }
+    let(:name) { 'some action' }
     let(:status) { 0 }
-    let(:result_string) { "stuff to be done" }
+    let(:result_string) { 'stuff to be done' }
 
     let(:result) { Task::Result.new(name, result_string, status) }
 

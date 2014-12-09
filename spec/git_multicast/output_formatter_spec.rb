@@ -2,9 +2,9 @@ module GitMulticast
   describe OutputFormatter do
     subject(:formatter) { described_class.new }
 
-    let(:name) { "some action" }
+    let(:name) { 'some action' }
     let(:exit_status) { 0 }
-    let(:result_string) { "stuff to be done" }
+    let(:result_string) { 'stuff to be done' }
 
     let(:result) { Task::Result.new(name, result_string, exit_status) }
 
