@@ -1,15 +1,13 @@
 module GitMulticast
   class TaskRunner
-    def initialize(tasks, formatter = OutputFormatter.new(Time.now))
+    def initialize(tasks)
       @tasks = tasks
-      @formatter = formatter
     end
 
     def run!
       tasks
         .map(&method(:future))
         .map(&:get)
-        .inject('', &:+)
     end
 
     protected
@@ -17,7 +15,7 @@ module GitMulticast
     attr_reader :tasks, :formatter
 
     def future(task)
-      PoorMansFuture.new { formatter.format(task.call) }
+      PoorMansFuture.new { task.call }
     end
 
     class PoorMansFuture

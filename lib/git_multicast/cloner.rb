@@ -1,8 +1,9 @@
 module GitMulticast
   class Cloner
-    def initialize(username, dir)
+    def initialize(username, dir, formatter = OutputFormatter.new(Time.now))
       @username = username
       @dir = dir
+      @formatter = formatter
     end
 
     def clone!
@@ -12,12 +13,20 @@ module GitMulticast
         Task.new(repo.name, command(repo))
       end
 
-      TaskRunner.new(tasks).run!
+      TaskRunner
+        .new(tasks)
+        .run!
+        .map(&method(:format))
+        .reduce('', &:+)
     end
 
     protected
 
-    attr_reader :username, :dir
+    attr_reader :username, :dir, :formatter
+
+    def format(task_result)
+      formatter.format(task_result)
+    end
 
     def command(repo)
       if repo.fork

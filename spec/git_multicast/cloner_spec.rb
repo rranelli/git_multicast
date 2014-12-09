@@ -46,6 +46,7 @@ module GitMulticast
       it 'creates a task runner and asks it to run all tasks' do
         VCR.use_cassette('clone_repos') do
           expect(TaskRunner).to receive_message_chain(:new, :run!)
+            .and_return([])
 
           clone!
         end

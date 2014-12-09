@@ -37,17 +37,6 @@ module GitMulticast
 
         run!
       end
-
-      it 'formats each output' do
-        expect(formatter).to receive(:format)
-          .with(first_result)
-          .and_call_original
-        expect(formatter).to receive(:format)
-          .with(second_result)
-          .and_call_original
-
-        run!
-      end
     end
   end
 end
