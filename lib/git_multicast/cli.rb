@@ -6,24 +6,34 @@ module GitMulticast
   class Cli < Thor
     desc 'git_multicast pull', 'Git pulls all repositories contained in\
  current directory.'
-    def pull
-      puts Puller.new(Dir.pwd).pull!
+    def pull(quiet = nil)
+      puts Puller.new(Dir.pwd, formatter(quiet)).pull!
     end
 
     desc 'git_multicast clone :username', 'Git pulls all repositories\
  contained in current directory.'
-    def clone(username)
-      puts Cloner.new(username, Dir.pwd).clone!
+    def clone(username, quiet = nil)
+      puts Cloner.new(username, Dir.pwd, formatter(quiet)).clone!
     end
 
     desc 'git_multicast status', 'Shows status for each repository'
-    def status
-      puts Statuser.new(Dir.pwd).statuses!
+    def status(quiet = nil)
+      puts Statuser.new(Dir.pwd, formatter(quiet)).statuses!
     end
 
     desc 'git_multicast version', 'Shows currently installed version'
     def version
       puts GitMulticast::VERSION
+    end
+
+    private
+
+    def formatter(quiet = nil)
+      if quiet
+        QuietFormatter.new(Time.now)
+      else
+        OutputFormatter.new(Time.now)
+      end
     end
   end
 end
