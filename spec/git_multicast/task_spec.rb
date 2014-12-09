@@ -1,10 +1,11 @@
 describe GitMulticast::Task do
   subject(:task) { described_class.new(description, command) }
 
-  let(:description) { 'some_repo' }
-  let(:command) { 'git clone some_repo' }
+  let(:description) { 'some echo' }
+  let(:command) { 'echo hi' }
 
   let(:pid) { 42 }
+  let(:status) { instance_double(Process::Status, exitstatus: 0) }
 
   let(:pipe) { IO.pipe }
   let(:r) { pipe.first }
@@ -13,6 +14,8 @@ describe GitMulticast::Task do
   before do
     allow(task).to receive(:spawn)
       .and_return(pid)
+    allow(task).to receive(:wait2)
+      .and_return([0, status])
     allow(task).to receive(:wait)
       .and_return(['', 0])
 
@@ -40,7 +43,7 @@ describe GitMulticast::Task do
     end
 
     it 'waits for its process to finish' do
-      expect(task).to receive(:wait)
+      expect(task).to receive(:wait2)
         .with(pid)
 
       run!

@@ -8,13 +8,12 @@ module GitMulticast
 
     def run!
       r, w = IO.pipe
-      w.write("Running: #{description}\n")
       pid = spawn(command, out: w, err: w)
 
-      _, exit_status = wait(pid)
+      _, status = wait2(pid)
       w.close unless w.closed?
 
-      TaskResult.new(description, r.read, exit_status)
+      TaskResult.new(description, r.read, status.exitstatus)
     ensure
       w.close unless w.closed?
     end
