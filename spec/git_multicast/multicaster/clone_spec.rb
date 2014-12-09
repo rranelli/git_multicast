@@ -19,7 +19,7 @@ module GitMulticast
       end
 
       let(:task) { instance_double(Task, call: result) }
-      let(:result) { TaskResult.new(repo_name, 'success', 0) }
+      let(:result) { Task::Result.new(repo_name, 'success', 0) }
 
       let(:pid) { 42 }
 
@@ -46,7 +46,7 @@ module GitMulticast
 
         it 'creates a task runner and asks it to run all tasks' do
           VCR.use_cassette('clone_repos') do
-            expect(TaskRunner).to receive_message_chain(:new, :run!)
+            expect(Task::Runner).to receive_message_chain(:new, :run!)
               .and_return([])
 
             execute!

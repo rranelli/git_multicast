@@ -1,3 +1,6 @@
+require_relative 'task/result'
+require_relative 'task/runner'
+
 module GitMulticast
   class Task
     include Process
@@ -13,7 +16,7 @@ module GitMulticast
       _, status = wait2(pid)
       w.close unless w.closed?
 
-      TaskResult.new(description, r.read, status.exitstatus)
+      Result.new(description, r.read, status.exitstatus)
     ensure
       w.close unless w.closed?
     end

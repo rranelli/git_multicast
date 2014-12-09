@@ -7,7 +7,7 @@ module GitMulticast
       let(:entries) { %w(one two) }
 
       let(:task) { instance_double(Task, call: result) }
-      let(:result) { TaskResult.new('fitas', 'success', 0) }
+      let(:result) { Task::Result.new('fitas', 'success', 0) }
 
       before do
         allow(File).to receive(:directory?).and_return(true)
@@ -30,7 +30,7 @@ module GitMulticast
         end
 
         it 'runs tasks using a runner' do
-          expect(TaskRunner).to receive(:new)
+          expect(Task::Runner).to receive(:new)
             .with([task, task]).and_call_original
 
           execute!

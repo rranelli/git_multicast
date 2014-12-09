@@ -49,8 +49,8 @@ describe GitMulticast::Task do
       run!
     end
 
-    it 'wraps its result in a TaskResult object' do
-      expect(GitMulticast::TaskResult).to receive(:new)
+    it 'wraps its result in a Task::Result object' do
+      expect(GitMulticast::Task::Result).to receive(:new)
         .with(description, 'I be output!', 0)
 
       run!

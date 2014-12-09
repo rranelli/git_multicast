@@ -6,7 +6,7 @@ module GitMulticast
     let(:status) { 0 }
     let(:result_string) { "stuff to be done" }
 
-    let(:result) { TaskResult.new(name, result_string, status) }
+    let(:result) { Task::Result.new(name, result_string, status) }
 
     describe '.format' do
       subject(:format) { formatter.format(result) }

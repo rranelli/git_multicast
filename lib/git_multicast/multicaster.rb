@@ -9,7 +9,7 @@ module GitMulticast
     end
 
     def execute!
-      TaskRunner
+      Task::Runner
         .new(tasks)
         .run!
         .map(&method(:format))
