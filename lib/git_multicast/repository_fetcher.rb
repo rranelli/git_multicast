@@ -1,11 +1,14 @@
 require_relative 'repository_fetcher/github'
 require_relative 'repository_fetcher/bitbucket'
 
+require 'net/http'
+require 'json'
+
 module GitMulticast
   class RepositoryFetcher
     FETCHER_ADAPTER_ZIP = [
-      [Bitbucket, Adapters::Bitbucket],
-      [Github, Adapters::Github]
+      [Bitbucket, Adapter::Bitbucket],
+      [Github, Adapter::Github]
     ]
 
     FETCHERS, ADAPTERS = FETCHER_ADAPTER_ZIP.transpose

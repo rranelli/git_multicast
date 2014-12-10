@@ -1,5 +1,5 @@
 module GitMulticast
-  module Adapters
+  module Adapter
     class Bitbucket
       def initialize(repo)
         @repo = repo

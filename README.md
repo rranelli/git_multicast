@@ -13,7 +13,7 @@ multiple git repositories, much like a multicast sends data to multiple
 recipients.
 
 `git_multicast` executes actions in parallel, so cloning 30 repositories will take
-just as long as cloning the biggest one, and nothing more.
+just as long as cloning the larger one, and nothing more.
 
 Actions currently supported:
 

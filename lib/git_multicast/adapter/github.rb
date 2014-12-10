@@ -1,5 +1,5 @@
 module GitMulticast
-  module Adapters
+  module Adapter
     class Github
       def initialize(repo)
         @repo = repo
