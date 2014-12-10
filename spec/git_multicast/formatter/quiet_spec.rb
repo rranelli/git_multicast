@@ -9,7 +9,7 @@ module GitMulticast
 
       let(:result) { Task::Result.new(name, result_string, status) }
 
-      describe '.format' do
+      describe '#format' do
         subject(:format) { formatter.format(result) }
 
         it do
