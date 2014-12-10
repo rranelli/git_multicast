@@ -18,10 +18,6 @@ module GitMulticast
           .map { |dir| Task.new(description(dir), command(dir)) }
       end
 
-      def format(task_result)
-        formatter.format(task_result)
-      end
-
       def command(dir)
         "git -C #{dir} pull -r origin"
       end

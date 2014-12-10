@@ -20,6 +20,10 @@ module GitMulticast
       fail NotImplementedError
     end
 
+    def format(task_result)
+      formatter.format(task_result)
+    end
+
     protected
 
     attr_reader :formatter

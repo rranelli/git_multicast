@@ -20,10 +20,6 @@ module GitMulticast
           .map { |repo| Task.new(repo.name, command(repo)) }
       end
 
-      def format(task_result)
-        formatter.format(task_result)
-      end
-
       def command(repo)
         if repo.fork
           parent_repo = RepositoryFetcher.get_repo_parent(repo.url)
