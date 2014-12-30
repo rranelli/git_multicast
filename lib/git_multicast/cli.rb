@@ -4,7 +4,7 @@ require 'git_multicast'
 
 module GitMulticast
   class Cli < Thor
-    class_option :version, :type => :boolean
+    class_option :version, type: :boolean
 
     desc 'git_multicast pull', 'Git pulls all repositories contained in\
  current directory.'
@@ -15,6 +15,18 @@ module GitMulticast
         puts multicaster(:pull).new(Dir.pwd, formatter).execute!
       else
         puts multicaster(:pull).new(Dir.pwd).execute!
+      end
+    end
+
+    desc 'git_multicast cast :command', 'Casts custom command to all git\
+ repositories in current directory.'
+    option :quiet, type: :boolean
+    option :verbose, type: :boolean
+    def cast(command)
+      if formatter
+        puts multicaster(:generic).new(Dir.pwd, command, formatter).execute!
+      else
+        puts multicaster(:generic).new(Dir.pwd, command).execute!
       end
     end
 
@@ -35,7 +47,7 @@ module GitMulticast
       puts multicaster(:status).new(Dir.pwd).execute!
     end
 
-    desc "version", "Show thor_app version"
+    desc 'version', 'Show thor_app version'
     def version
       puts GitMulticast::VERSION
     end

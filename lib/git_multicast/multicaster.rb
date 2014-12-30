@@ -1,4 +1,5 @@
 require_relative 'multicaster/clone'
+require_relative 'multicaster/generic'
 require_relative 'multicaster/pull'
 require_relative 'multicaster/status'
 

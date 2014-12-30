@@ -43,5 +43,15 @@ module GitMulticast
         clone
       end
     end
+
+    describe '#cast' do
+      subject(:cast) { cli.cast('some command') }
+
+      it do
+        expect(Multicaster::Generic).to receive_message_chain(:new, :execute!)
+
+        cast
+      end
+    end
   end
 end
