@@ -18,11 +18,33 @@ just as long as cloning the larger one, and nothing more.
 Actions currently supported:
 
 * Git clone all repositories of an user or organization (github & bitbucket).
+
+```sh
+git_multicast clone username
+```
+
 * Git pull all repositories in a directory.
+
+```sh
+git_multicast clone username
+```
+
 * Git status all repositories in a directory.
+
+```sh
+git_multicast status
+```
+
+
+* Sends a custom git command to all repositories in a directory.
+
+```sh
+git_multicast cast "push --force origin master" # don't do this at home.
+```
+
+All actions allow for both `--verbose` and `--quiet` options that will control
+how much output is shown for each command execution.
 
 Actions to be supported:
 
-* Git clone repositories from Gitlab.
-* Pass options to git pull. (e.g., force, rebase, dry-run, etc.)
-* Pass options to git status. (e.g., show only those that have modifications)
+* Git clone repositories from `Gitlab`.
