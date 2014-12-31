@@ -1,11 +1,10 @@
 Documentation:
   Enabled: false
 
+Style/Encoding:
+  Enabled: false
+
 AllCops:
-  # Include gemspec and Rakefile
   Include:
     - '**/*.gemspec'
     - '**/Rakefile'
-
-Style/Encoding:
-  Enabled: false
