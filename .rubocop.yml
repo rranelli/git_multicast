@@ -4,6 +4,9 @@ Documentation:
 Style/Encoding:
   Enabled: false
 
+Style/MultilineOperationIndentation:
+  Enabled: false
+
 AllCops:
   Include:
     - '**/*.gemspec'
