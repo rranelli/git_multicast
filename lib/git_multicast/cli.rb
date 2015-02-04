@@ -47,7 +47,7 @@ module GitMulticast
       puts multicaster(:status).new(Dir.pwd).execute!
     end
 
-    desc 'version', 'Show thor_app version'
+    desc 'version', 'Show git_multicast version'
     def version
       puts GitMulticast::VERSION
     end
