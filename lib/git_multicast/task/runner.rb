@@ -1,34 +1,35 @@
 module GitMulticast
   class Task
     class Runner
-      def initialize(tasks)
+      def initialize(tasks, pool_size: 20, pool: Pool.new(pool_size))
         @tasks = tasks
+        @pool = pool
+        @result_queue = Queue.new
       end
 
       def run!
         tasks
-          .map(&method(:future))
-          .map(&:get)
+          .map(&wrap_with_notify)
+          .map(&schedule)
+          .map(&await)
       end
 
       protected
 
-      attr_reader :tasks
+      attr_reader :tasks, :result_queue, :pool
 
-      def future(task)
-        PoorMansFuture.new { task.call }
+      private
+
+      def wrap_with_notify
+        -> (task) { -> (*) { result_queue << task.call } }
       end
 
-      class PoorMansFuture
-        def initialize
-          @thread = Thread.new { yield }
-        end
+      def schedule
+        -> (task) { pool.schedule([], &task) }
+      end
 
-        def get
-          thread.value
-        end
-
-        attr_reader :thread
+      def await
+        -> (_) { result_queue.pop }
       end
     end
   end
