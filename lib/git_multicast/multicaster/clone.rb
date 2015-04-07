@@ -10,27 +10,31 @@ module GitMulticast
         super(formatter)
       end
 
+      def tasks
+        # Building clone commands asynchronously
+        clone_tasks = repos.map(&to_clone_command_task)
+        commands = Task::Runner.new(clone_tasks).run!
+
+        commands.map { |command| Task.new(command, command) }
+      end
+
       protected
 
       attr_reader :username, :dir
 
       private
 
-      def tasks
-        RepositoryFetcher
-          .get_all_repos_from_user(username)
-          .map { |repo| Task.new(description(repo), command(repo)) }
+      def repos
+        RepositoryFetcher.get_all_repos_from_user(username)
       end
 
-      def description(repo)
-        "Cloning #{repo.name}..."
-      end
-
-      def command(repo)
-        if repo.fork
-          clone_repo_with_parent(repo)
-        else
-          clone(repo)
+      def to_clone_command_task
+        lambda do |repo|
+          if repo.fork
+            -> { clone_repo_with_parent(repo) }
+          else
+            -> { clone(repo) }
+          end
         end
       end
 
