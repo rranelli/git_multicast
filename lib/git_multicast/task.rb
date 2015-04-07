@@ -1,5 +1,6 @@
 require_relative 'task/result'
 require_relative 'task/runner'
+require_relative 'task/pool'
 
 module GitMulticast
   class Task
