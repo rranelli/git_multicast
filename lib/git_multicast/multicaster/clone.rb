@@ -17,7 +17,11 @@ module GitMulticast
       def tasks
         RepositoryFetcher
           .get_all_repos_from_user(username)
-          .map { |repo| Task.new(repo.name, command(repo)) }
+          .map { |repo| Task.new(description(repo), command(repo)) }
+      end
+
+      def description(repo)
+        "Cloning #{repo.name}..."
       end
 
       def command(repo)

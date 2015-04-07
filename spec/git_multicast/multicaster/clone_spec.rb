@@ -67,7 +67,7 @@ module GitMulticast
               ' /kifita/git_multicast'
 
             expect(Task).to receive(:new)
-              .with(repo_name, command)
+              .with("Cloning #{repo_name}...", command)
 
             execute!
           end
@@ -78,14 +78,13 @@ module GitMulticast
 
           it 'adds upstream remote' do
             VCR.use_cassette('clone_repos') do
-              expect(Task).to receive(:new)
-                .with(
-                repo_name,
+              expect(Task).to receive(:new).with(
+                "Cloning #{repo_name}...",
                 "git clone git@github.com:rranelli/#{repo_name}.git " \
                 "/kifita/#{repo_name} && git -C \"/kifita/#{repo_name}\"" \
                 ' remote add upstream ' \
                 "git@github.com:purcell/#{repo_name}.git --fetch"
-                )
+              )
 
               execute!
             end
