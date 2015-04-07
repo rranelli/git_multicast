@@ -21,14 +21,11 @@ module GitMulticast
 
       class PoorMansFuture
         def initialize
-          @thread = Thread.new do
-            Thread.current[:output] = yield
-          end
+          @thread = Thread.new { yield }
         end
 
         def get
-          thread.join
-          thread[:output]
+          thread.value
         end
 
         attr_reader :thread
