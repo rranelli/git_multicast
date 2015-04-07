@@ -11,6 +11,8 @@ module GitMulticast
     end
 
     def run!
+      puts description
+
       r, w = IO.pipe
       pid = spawn(command, out: w, err: w)
 

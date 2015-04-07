@@ -12,6 +12,8 @@ describe GitMulticast::Task do
   let(:w) { pipe[1] }
 
   before do
+    allow(STDOUT).to receive(:write)
+
     allow(task).to receive(:spawn)
       .and_return(pid)
     allow(task).to receive(:wait2)
@@ -52,6 +54,12 @@ describe GitMulticast::Task do
     it 'wraps its result in a Task::Result object' do
       expect(GitMulticast::Task::Result).to receive(:new)
         .with(description, 'I be output!', 0)
+
+      run!
+    end
+
+    it 'writes description to STDOUT' do
+      expect(STDOUT).to receive(:write).with(description)
 
       run!
     end
