@@ -3,6 +3,10 @@ require 'thread'
 module GitMulticast
   class Task
     class Pool
+      def self.pool
+        @pool ||= new(20)
+      end
+
       def initialize(size)
         @size = size
         @queue = Queue.new

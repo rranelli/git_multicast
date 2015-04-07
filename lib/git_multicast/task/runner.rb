@@ -1,7 +1,7 @@
 module GitMulticast
   class Task
     class Runner
-      def initialize(tasks, pool_size: 20, pool: Pool.new(pool_size))
+      def initialize(tasks, pool: Pool.pool)
         @tasks = tasks
         @pool = pool
         @result_queue = Queue.new
