@@ -14,11 +14,11 @@ module GitMulticast
     FETCHERS, ADAPTERS = FETCHER_ADAPTER_ZIP.transpose
 
     def self.get_all_repos_from_user(username)
-      FETCHER_ADAPTER_ZIP.map do |fetcher, adapter|
+      FETCHER_ADAPTER_ZIP.flat_map do |fetcher, adapter|
         raw_repos = fetcher.get_all_repos_from_user(username)
 
         raw_repos.map { |raw_repo| adapter.new(raw_repo).adapt }
-      end.flatten
+      end
     end
 
     def self.get_repo(url)

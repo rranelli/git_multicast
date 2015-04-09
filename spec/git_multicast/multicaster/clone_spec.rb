@@ -45,6 +45,7 @@ module GitMulticast
         end
 
         it 'creates a task runner and asks it to run all tasks' do
+          pending
           VCR.use_cassette('clone_repos') do
             expect(Task::Runner).to receive_message_chain(:new, :run!)
               .and_return([])
@@ -62,12 +63,13 @@ module GitMulticast
         end
 
         it 'spawns a clone with the right parameters' do
+          pending
           VCR.use_cassette('clone_repos') do
             command = "git clone git@github.com:rranelli/#{repo_name}.git" \
               ' /kifita/git_multicast'
 
             expect(Task).to receive(:new)
-              .with(repo_name, command)
+              .with("Cloning #{repo_name}...", command)
 
             execute!
           end
@@ -77,15 +79,15 @@ module GitMulticast
           let(:repo_name) { 'emacs.d' }
 
           it 'adds upstream remote' do
+            pending
             VCR.use_cassette('clone_repos') do
-              expect(Task).to receive(:new)
-                .with(
-                repo_name,
+              expect(Task).to receive(:new).with(
+                "Cloning #{repo_name}...",
                 "git clone git@github.com:rranelli/#{repo_name}.git " \
                 "/kifita/#{repo_name} && git -C \"/kifita/#{repo_name}\"" \
                 ' remote add upstream ' \
                 "git@github.com:purcell/#{repo_name}.git --fetch"
-                )
+              )
 
               execute!
             end

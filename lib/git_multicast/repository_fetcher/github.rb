@@ -24,12 +24,16 @@ module GitMulticast
       end
 
       def self.get_repo(url)
-        response = Net::HTTP.get_response(URI(url))
+        response = Net::HTTP.get_response(URI(url + access_token))
         make_struct(JSON.parse(response.body))
       end
 
       def self.make_uri(username)
-        REPOS_URI % { username: username }
+        (REPOS_URI % { username: username }) + access_token
+      end
+
+      def self.access_token
+        (ENV['GITHUB_ACCESS_TOKEN'] && "?access_token=#{ENV['GITHUB_ACCESS_TOKEN']}").to_s
       end
     end
   end
